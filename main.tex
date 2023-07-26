@@ -1,0 +1,95 @@
+\documentclass[10pt, a4paper, twoside]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{newtxtext,newtxmath} % Times New Roman font
+\usepackage[left=2.5cm, right=2.5cm, top=2.5cm, bottom=2.5cm, headheight=15pt]{geometry}
+\usepackage{titlesec} % For customizing section titles
+\usepackage{enumitem} % Enables bullet points
+\usepackage{lipsum} % Add dummy text
+\usepackage{hyperref} % Links for references
+\usepackage{parskip} % Set spacing between paragraphs
+\usepackage{fancyhdr} % Format headers
+\usepackage{etoolbox} % Format bibliography header
+
+\setlength{\parskip}{10pt}
+
+\titleformat{\section}{\normalfont\fontsize{10}{13}\uppercase}{\thesection.}{1em}{}
+\titleformat{\subsection}{\normalfont\fontsize{10}{13}\bfseries}{\thesubsection.}{1em}{}
+\titleformat{\subsubsection}{\normalfont\fontsize{10}{13}\itshape}{\thesubsubsection.}{1em}{}
+
+% Redefining \section* command for centered section title
+\titleformat{name=\section,numberless}{\normalfont\fontsize{10}{13}\bfseries\centering\uppercase}{}{0pt}{}
+
+% Ensure references title has the same format as \section*
+\patchcmd{\thebibliography}{\section*{\refname}}{\section*{REFERENCES}}{}{}
+
+%  Create headers
+\fancyhf{} % clear all header and footer fields
+\renewcommand{\headrulewidth}{0pt}
+\fancyhead[CE]{\fontsize{8}{10}\selectfont \textbf{IAEA-CN-316/2143}}
+\fancyhead[CO]{\fontsize{8}{10}\selectfont \textbf{PROKOPYSZYN et al.}}
+\pagestyle{fancy}
+
+\begin{document}
+\begin{flushleft}
+\fontsize{12}{14}\selectfont \textbf{CONFINEMENT OF FUSION ALPHA-PARTICLES AND ALFV\'EN EIGENMODE STABILITY IN STEP}
+% \fontsize{12}{14}\selectfont \textbf{\textit{Subtitle if needed in Times New Roman 12 point bold italic, sentence case}}
+
+\fontsize{10}{13}\selectfont
+
+A. P. K. Prokopyszyn, K. G. McClements, 
+H. J. C. Oliver, M. Fitzgerald, D. A. Ryan and G. Xia \\
+United Kingdom Atomic Energy Authority \\
+Culham Centre for Fusion Energy, Culham Science Centre, Abingdon, Oxfordshire OX14 3DB, United Kingdom \\
+Email: alex.prokopysyzn@ukaea.uk
+
+\end{flushleft}
+
+% Abstract section
+\begin{flushleft}
+\selectfont \textbf{Abstract}
+\end{flushleft}
+
+\setlength{\parindent}{1cm}
+\fontsize{9}{12pt}\selectfont
+
+The Spherical Tokamak for Energy Production (STEP) programme is focused on constructing a state-of-the-art fusion power plant prototype that will generate approximately 1.6-1.7 GW of deuterium-tritium fusion energy. To achieve this, alpha-particles created through fusion must be adequately confined to maintain the necessary high temperature in the core of the plasma and to protect the wall from too much damage. Microwaves are used for both external heating and current driving, making alpha particles the only significant fast-ion species. The purpose of this research is to model the confinement of alpha-particles and the toroidal Alfvén eigenmodes (TAEs) driven by these particles in a variety of plasma scenarios to help determine the best configuration. The scenarios examined here have been identified by the STEP team as potential flat-top operating configurations. We are using LOCUST (Lorentz Orbit Code for Use in Stellerators and Tokamaks) to model the alpha-particle confinement and heat-load distribution on the wall, and HALO ([insert acronym here]) to model the TAEs. The results indicate that adequate confinement can be achieved in some of the scenarios, but caution must be taken. For instance, slight modifications to the RMP coils can reduce the confinement by a factor of ten.
+
+% Abstract and title over, format text for the main body
+\setlength{\parindent}{0pt}
+\fontsize{10}{13}\selectfont
+
+\section{Introduction}
+\lipsum[2-3]\cite{ref2}\cite{ref1}
+
+\section{Originality, Copyright And Publication}
+\lipsum[4-5]
+
+\subsection{Second level paper heading}
+\lipsum[6-7]
+
+\subsubsection{Third level paper heading}
+\lipsum[8-9]
+
+\section*{Acknowledgements}
+\lipsum[10]
+
+% Format text for bibliography
+\fontsize{9}{12}\selectfont
+\setlength{\parskip}{0pt}
+\begin{thebibliography}{9}
+\bibitem{ref1}
+  AUTHOR, A., 
+  Book Title in Title Case, 
+  Series No. if applicable, 
+  Publisher, 
+  Place of Publication (Year).
+\bibitem{ref2}
+  AUTHOR, A., 
+  Internal Report Title in Title Case, 
+  internal report, 
+  Organisation,
+  Location,
+  Year.
+\end{thebibliography}
+
+\end{document}
