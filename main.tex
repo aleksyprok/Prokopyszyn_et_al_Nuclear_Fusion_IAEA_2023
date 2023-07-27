@@ -52,7 +52,7 @@ Email: alex.prokopysyzn@ukaea.uk
 \setlength{\parindent}{1cm}
 \fontsize{9}{12pt}\selectfont
 
-The Spherical Tokamak for Energy Production (STEP) programme is focused on constructing a state-of-the-art fusion power plant prototype that will generate approximately 1.6-1.7 GW of deuterium-tritium fusion energy. To achieve this, the alpha-particles generated through fusion must be adequately confined to maintain the necessary high temperature in the core of the plasma and to protect the wall from too much damage. Microwaves are used for both external heating and current drive, making alpha-particles the only significant fast-ion species. The purpose of this research is to model the confinement of alpha-particles and the toroidal Alfvén eigenmodes (TAEs) driven by these particles in a variety of plasma scenarios to help determine the best configuration. The scenarios examined here have been identified by the STEP team as potential flat-top operating configurations. We are using LOCUST (Lorentz Orbit Code for Use in Stellerators and Tokamaks) to model the alpha-particle confinement and heat-load distribution on the wall, and HALO ([insert acronym here]) to model the TAEs. The results indicate that adequate confinement can be achieved in some of the scenarios, but caution must be taken. For instance, slight modifications to the RMP coils can reduce the confinement by a factor of ten.
+The Spherical Tokamak for Energy Production (STEP) programme is focused on constructing a state-of-the-art fusion power plant prototype that will generate approximately 1.6-1.7 GW of deuterium-tritium fusion energy. To achieve this, the $\alpha$-particles generated through fusion must be adequately confined to maintain the necessary high temperature in the core of the plasma and to protect the wall from too much damage. Microwaves are used for both external heating and current drive, making $\alpha$-particles the only significant fast-ion species. The purpose of this research is to model the confinement of $\alpha$-particles and the toroidal Alfvén eigenmodes (TAEs) driven by these particles in a variety of plasma scenarios to help determine the best configuration. The scenarios examined here have been identified by the STEP team as potential flat-top operating configurations. We are using LOCUST (Lorentz Orbit Code for Use in Stellerators and Tokamaks) to model the $\alpha$-particle confinement and heat-load distribution on the wall, and HALO ([insert acronym here]) to model the TAEs. The results indicate that adequate confinement can be achieved in some of the scenarios, but caution must be taken. For instance, slight modifications to the RMP coils can reduce the confinement by a factor of ten.
 
 
 % Abstract and title over, format text for the main body
@@ -68,37 +68,61 @@ The Spherical Tokamak for Energy Production (STEP) programme is focused on const
     \item ELMs and RMP coils
     \item Flat-top scenario as opposed to ramp-up/ramp-down
     \item What do we mean by “fast particles” in a tokamak plasma?
+    \item Heat loads
 \end{itemize}
 
+The United Kingdom Atomic Energy Authority (UKAEA) aims to develop a prototype compact fusion energy power plant and a commercial pathway to fusion energy \cite{nuttall2020, meyer2023}. Confinement and slowing down of fusion-born $\alpha$-particles play a key role in determining the efficiency of a D-T burning fusion reactor. Additionally, it is crucial that not too many particles are lost, as this can lead to unacceptable damage on the wall. Further details on acceptable wall loads are discussed later in this section. Ideally, the $\alpha$-particles will slow down via Coulomb collisions with the bulk (thermal) electrons and ions and transfer their heat to help trigger further fusion reactions.  
+However, under realistic conditions, high frequency instabilites can divert the $\alpha$-ion energy deposition away from the core \cite{belova2015}. This research will focus on one of the instabilities of particular concern, namely, TAEs.
 
+The UKAEA is striving to create a prototype of a compact fusion energy power plant and a commercial pathway to fusion energy \cite{nuttall2020, meyer2023}. Controlling and slowing down of fusion-born $\alpha$-particles is essential for the efficiency of a D-T burning fusion reactor. It is also important to ensure that not too many particles are lost, as this can cause damage to the wall. The $\alpha$-particles should ideally slow down through Coulomb collisions with the thermal electrons and ions, and transfer their heat to help trigger further fusion reactions. However, under realistic conditions, high frequency instabilities can divert the $\alpha$-ion energy deposition away from the core \cite{belova2015}. This research focuses on one of the instabilities of particular concern, namely, TAEs.
 
 \section{LOCUST Modellling}
+
+\subsection{Model}
+
+\subsection{Results}
+
 \lipsum[4-5]
 
 \section{HALO Modelling}
 
+\subsection{Model}
+
+\subsection{Results}
+
 \lipsum[6-7]
 
+\section{Disussion and conclusions}
+
 \section*{Acknowledgements}
-\lipsum[10]
+
+This work has been funded by STEP, a UKAEA program to design and build a prototype fusion energy plant and a path to commercial fusion.
 
 % Format text for bibliography
 \fontsize{9}{12}\selectfont
 \setlength{\parskip}{0pt}
 \begin{thebibliography}{9}
-\bibitem{ref1}
-  AUTHOR, A., 
-  Book Title in Title Case, 
-  Series No. if applicable, 
-  Publisher, 
-  Place of Publication (Year).
-\bibitem{ref2}
-  AUTHOR, A., 
-  Internal Report Title in Title Case, 
-  internal report, 
-  Organisation,
-  Location,
-  Year.
+\bibitem{nuttall2020}
+    Wilson, H., Chapman, I., Denton, T., Morris, W., Patel, B., Voss, G., Waldon, C., and the STEP Team, 
+    ``STEP-on the pathway to fusion commercialization", 
+    Commercialising Fusion Energy, 
+    IOP Publishing, 
+    (2020).
+\bibitem{meyer2023}
+    Meyer, H.,
+    ``The plasma scenarios for the Spherical Tokamak for Energy Production (STEP) and their technical implications",
+    29\textsuperscript{th} 
+    IAEA Fusion Energy Conference,
+    Poster Presentation, 
+    London, UK, 
+    (2023)
+\bibitem{belova2015}
+    Belova, E.V., Gorelenkov, N.N., Fredrickson, E.D., Tritz, K., Crocker, N.A., 
+    ``Coupling of neutral-beam-driven compressional Alfv\'en eigenmodes to kinetic Alfv\'en waves in NSTX tokamak and energy channeling'', 
+    Phys. Rev. Lett. 
+    \textbf{115} 1 
+    (2015) 
+    015001.
 \end{thebibliography}
 
 \end{document}
