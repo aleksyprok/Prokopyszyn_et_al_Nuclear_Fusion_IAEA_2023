@@ -29,6 +29,7 @@
 \renewcommand{\headrulewidth}{0pt}
 \fancyhead[CE]{\fontsize{8}{10}\selectfont \textbf{IAEA-CN-316/2143}}
 \fancyhead[CO]{\fontsize{8}{10}\selectfont \textbf{PROKOPYSZYN et al.}}
+\fancyfoot[RO]{\fontsize{10}{13}\selectfont \thepage}
 \pagestyle{fancy}
 
 \begin{document}
@@ -59,6 +60,7 @@ The Spherical Tokamak for Energy Production (STEP) programme is focused on const
 \fontsize{10}{13}\selectfont
 
 \section{Introduction}
+\label{sec:introduction}
 
 The United Kingdom Atomic Energy Authority (UKAEA) is pioneering efforts to develop a compact prototype of a fusion energy power plant and establish a commercial pathway for fusion energy \cite{nuttall2020, meyer2023}. A crucial factor in the efficiency of a Deuterium-Tritium burning fusion reactor is the confinement of fusion-born $\alpha$-particles. These particles hold the energy that fuels further fusion reactions. Furthermore, it is imperative to minimise particle losses to prevent potential damage to the reactor walls.
 
@@ -76,10 +78,7 @@ STEP aims to operate in high-confinement mode (H-mode) \cite{wagner1982}, as a r
 
 This research will only consider the plasma during the flat-top phase, as this is when the $\alpha$-particle power is at its peak. Nevertheless, it is also essential to investigate the alpha particle confinement during the ramp-up and ramp-down phases in the near future.
 
-To model the the $\alpha$-particles we need detailed information on the temperature, density and background magnetic field. We have predicitions of the flat-top temperature, density and 2D magnetic field which have been provided to us by the STEP integrated modelling team which used by the integrated modelling suite JINTRAC \cite{mitchell2023}.
-\begin{itemize}
-    \item Talk about how background plasma is calculated.
-\end{itemize}
+In order to accurately model the $\alpha$-particles, we require detailed data on temperature, density, and the background magnetic field. Fortunately, the STEP integrated modelling team has provided us with predictions for these parameters. Specifically, we have information about the flat-top temperature and density, along with a 2D representation of the magnetic field. These predictions were generated using the integrated modelling suite, JINTRAC \cite{meyer2023, mitchell2023}. This sophisticated tool incorporates a wide range of physics, including the application of simplified fast-ion models, providing a comprehensive basis for our analysis.
 
 The structure of this paper is as follows: Sec.\ref{sec:locust_work} details our efforts to model alpha-particle confinement in the flat-top scenario and compute the associated losses and heat load on the wall using the LOCUST code. In this section, background quantities such as the magnetic field are held constant. Conversely, in Sec. \ref{sec:halo_work}, we incorporate the magnetic field's response to alpha particles and assess the Toroidal Alfven Eigenmodes (TAE) stability of the plasma using the HALO code. Both Sec. \ref{sec:locust_work} and Sec. \ref{sec:halo_work} start with a presentation and explanation of the model and input files used, followed by the results obtained from our simulations. Finally, in Sec. \ref{sec:discussion_and_conclusions}, we summarize our findings and delve into their implications.
 
@@ -94,20 +93,25 @@ We will calculate the $\alpha$-particle energy flux on the walls of STEP using t
 
 LOCUST is a Monte Carlo simulation code. It tracks particles, represented by markers, that illustrate samples of the $\alpha$-particle distribution. These markers are traced from their creation until one of two events occur: either they escape and collide with the walls of the tokamak, or their velocity reduces below a certain threshold (namely, 1.5 times the bulk ion temperature). Once their velocity drops below this limit, the particles are considered to have thermalised.
 
-Consider the motion of a marker in a magnetic field. We number each marker with an integer $j \in \mathbb{N}$, and we represent the position of the $j^{\text{th}}$ marker at time $t$ by $\textbf{r}_j(t)$.
+We number each marker with an integer $j \in \mathbb{N}$, and we represent the position of the $j^{\text{th}}$ marker at time $t$ by $\textbf{r}_j(t)$.
 We represent the background magnetic field at the position of the marker by $\textbf{B}(\textbf{r}_j)$.
-The forces on the marker due to collisions with the background ions and electrons are denoted by $\textbf{F}_{\alpha,i}(\textbf{r}j)$ and $\textbf{F}{\alpha,e}(\textbf{r}_j)$, respectively.
-Also, let $\alpha$ denote a charged particle with mass $m_\alpha$ and charge $q_\alpha$.
-Then the equation of motion for the $j^{\text{th}}$ marker is given by:
+The forces on the marker due to collisions with the background ions and electrons are denoted by $\textbf{F}_{\alpha,i}(\textbf{r}_j)$ and $\textbf{F}{\alpha,e}(\textbf{r}_j)$, respectively.
+Also, the mass and charge of the $\alpha$-particles are denoted with $m_\alpha$ and $q_\alpha$ respectively.
+We model the equation of motion for the $j^{\text{th}}$ marker as:
 \begin{equation}
-m_\alpha\dv[2]{\textbf{r}_j}{t} = q\alpha\dv{\textbf{r}_j}{t}\cross\textbf{B}(\textbf{r}j) + \textbf{F}{\alpha,i}(\textbf{r}j) + \textbf{F}{\alpha,e}(\textbf{r}_j).
+m_\alpha\dv[2]{\textbf{r}_j}{t} = q_\alpha\dv{\textbf{r}_j}{t}\cross\textbf{B}(\textbf{r}_j) + \textbf{F}_{\alpha,i}(\textbf{r}_j) + \textbf{F}_{\alpha,e}(\textbf{r}_j).
 \end{equation}
 
-Since we are modelling the the fast ions during the flat-top/steady-state phase, the background magnetic field and 
+As stated in Sec \ref{sec:introduction}, we focus our modelling on the flat-top (steady-state) phase. During this phase, we treat the background magnetic field and bulk plasma as constants. We make the assumption that the influence of the $\alpha$-particles on the background plasma has already been addressed by the simplified models incorporated in the JINTRAC integrated modelling suite.
+Moreover, our simulation does not account for collisions between the $\alpha$-particles. This omission is justified by the fact that the number density of the $\alpha$-particles with energies significantly higher than the background temperature is much lower than the number density of the background ions and electrons. Consequently, each $\alpha$-particle is modelled independently. This approach presents substantial computational advantages as it allows for parallel processing.
+To capitalise on this, LOCUST utilises GPU architecture, enabling simultaneous modelling of numerous particles. This approach is computationally more efficient and cost-effective compared to CPU-based modelling.
+
+\begin{itemize}
+    \item Describe the input files to use
+    \item Make a TDMS
+\end{itemize}
 
 \subsection{Results}
-
-\lipsum[4-5]
 
 \section{TAE stability calculations}
 \label{sec:halo_work}
@@ -116,14 +120,12 @@ Since we are modelling the the fast ions during the flat-top/steady-state phase,
 
 \subsection{Results}
 
-\lipsum[6-7]
-
 \section{Disussion and conclusions}
 \label{sec:discussion_and_conclusions}
 
-Our research confirms that, as anticipated, the confinement of alpha particles is proficient in an axisymmetric system. However, this confinement efficiency deteriorates when the ripple field - arising from the use of a finite number of toroidal field (TF) coils - is introduced. Nonetheless, this poses only minor concerns if we opt to position the TF coils inside the vacuum vessel. Given the current plans to locate the TF coils outside the vacuum vessel, with a major radius greater than approximately 9 meters, this is not expected to present significant problems.
+Our research confirms that, as expected, the confinement of alpha particles is sufficient in an axisymmetric system. However, this confinement efficiency deteriorates when the ripple field, arising from the use of a finite number of toroidal field (TF) coils, is introduced. Nevertheless, this poses only minor concerns if we opt to position the TF coils inside the vacuum vessel. Given the current plans to locate the TF coils outside the vacuum vessel, with a major radius greater than approximately 9 meters, this is not expected to present significant problems.
 
-The Edge Localised Mode (ELM) mitigation coils pose a more substantial challenge. Our work demonstrates that if the phase between the upper and lower sets of coils is not optimally chosen, it can result in severe complications. Additional research into ELM suppression, particularly for a device with STEP's dimensions, is necessary. Nevertheless, we believe that the work presented here provides valuable insights to inform the design process. This would enable us to find a solution that effectively mitigates ELMs while also maintaining low fast particle losses.
+The Edge Localised Mode (ELM) mitigation coils pose a more substantial challenge. Our work demonstrates that if the phase between the upper and lower sets of coils is not optimally chosen, it can result in severe complications. Additional research into ELM suppression, particularly for a device with STEP's dimensions, is necessary. Nevertheless, we believe that the work presented here provides valuable insights to inform the design process. This would enable us to find a solution that effectively mitigates ELMs while also maintaining acceptabble $\alpha$-particle losses.
 
 \section*{Acknowledgements}
 
