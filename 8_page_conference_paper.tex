@@ -1,3 +1,4 @@
+
 \documentclass[10pt, a4paper, twoside]{article}
 \usepackage[utf8]{inputenc}
 \usepackage{newtxtext,newtxmath} % Times New Roman font
@@ -9,8 +10,15 @@
 \usepackage{parskip} % Set spacing between paragraphs
 \usepackage{fancyhdr} % Format headers
 \usepackage{etoolbox} % Format bibliography header
+\usepackage{siunitx} % Used to write SI base units
 \usepackage{physics} % Used to write differential equations more easily
-% \usepackage{siunitx} % Used to write SI base units
+\usepackage{graphicx} % Used for figures
+\usepackage{caption} % Used to edit the figure captions
+
+% This code is used to supress \qty warning conflict between siunitx and physics packages
+\ExplSyntaxOn
+\msg_redirect_name:nnn { siunitx } { physics-pkg } { none }
+\ExplSyntaxOff
 
 \setlength{\parskip}{10pt}
 
@@ -24,7 +32,7 @@
 % Ensure references title has the same format as \section*
 \patchcmd{\thebibliography}{\section*{\refname}}{\section*{REFERENCES}}{}{}
 
-%  Create headers
+%  Create headers and footers
 \fancyhf{} % clear all header and footer fields
 \renewcommand{\headrulewidth}{0pt}
 \fancyhead[CE]{\fontsize{8}{10}\selectfont \textbf{IAEA-CN-316/2143}}
@@ -32,13 +40,27 @@
 \fancyfoot[RO]{\fontsize{10}{13}\selectfont \thepage}
 \pagestyle{fancy}
 
+% Set the caption font size to 9pt
+\DeclareCaptionFont{ninept}{\fontsize{9pt}{12pt}\selectfont}
+\renewcommand{\figurename}{\textit{FIG.}}
+\captionsetup{
+    justification=raggedright,
+    singlelinecheck=true,
+    font=ninept,
+    textfont=it,
+    labelfont=it,
+    labelsep=period,
+    labelformat=simple,
+    format=hang
+}
+
 \begin{document}
 \begin{flushleft}
 \fontsize{12}{14}\selectfont \textbf{CONFINEMENT OF FUSION ALPHA-PARTICLES AND ALFV\'EN EIGENMODE STABILITY IN STEP}
 % \fontsize{12}{14}\selectfont \textbf{\textit{Subtitle if needed in Times New Roman 12 point bold italic, sentence case}}
 
 \fontsize{10}{13}\selectfont
-A.P.K. PROKOPYSZYN, K.G. MCCLEMENTS, H.J.C. OLIVER, M. FITZGERALD, D.A. RYAN, G. XIA
+A.P.K. PROKOPYSZYN, K.G. MCCLEMENTS, H.J.C. OLIVER, M. FITZGERALD, D.A. RYAN, G. XIA \\
 United Kingdom Atomic Energy Authority \\
 Culham Centre for Fusion Energy, Culham Science Centre, Abingdon, Oxfordshire OX14 3DB, United Kingdom \\
 Email: alex.prokopysyzn@ukaea.uk
@@ -53,7 +75,7 @@ Email: alex.prokopysyzn@ukaea.uk
 \setlength{\parindent}{1cm}
 \fontsize{9}{12pt}\selectfont
 
-The Spherical Tokamak for Energy Production (STEP) programme is focused on constructing a state-of-the-art fusion power plant prototype that will generate approximately 1.6-1.7 GW of deuterium-tritium fusion energy. To achieve this, the $\alpha$-particles generated through fusion must be adequately confined to maintain the necessary high temperature in the core of the plasma and to protect the wall from too much damage. Microwaves are used for both external heating and current drive, making $\alpha$-particles the only significant fast-ion species. The purpose of this research is to model the confinement of $\alpha$-particles and the toroidal Alfvén eigenmodes (TAEs) driven by these particles in a variety of plasma scenarios to help determine the best configuration. The scenarios examined here have been identified by the STEP team as potential flat-top operating configurations. We use LOCUST (Lorentz Orbit Code for Use in Stellerators and Tokamaks) to model the $\alpha$-particle confinement and heat-load distribution on the wall, and HALO (HAgis LOcust) to model the TAEs. The results indicate that adequate confinement can be achieved in some of the scenarios, but caution must be taken. For instance, slight modifications to the RMP coils can reduce the confinement by a factor of ten.
+The Spherical Tokamak for Energy Production (STEP) programme is focused on constructing a state-of-the-art fusion power plant prototype that will generate approximately 1.6-1.7 GW of deuterium-tritium fusion energy. To achieve this, the $\alpha$-particles generated through fusion must be adequately confined to maintain the necessary high temperature in the core of the plasma and to protect the wall from too much damage. Microwaves are used for both external heating and current drive, making $\alpha$-particles the only significant fast-ion species. The purpose of this research is to model the confinement of $\alpha$-particles and the toroidal Alfvén eigenmodes (TAEs) driven by these particles in a variety of plasma scenarios to help determine the best configuration. The scenarios examined here have been identified by the STEP team as potential flat-top operating configurations. We use LOCUST (Lorentz Orbit Code for Use in Stellerators and Tokamaks) to model the $\alpha$-particle confinement and heat-load distribution on the wall, and HALO (HAgis LOcust) to model the TAEs. The results indicate that adequate confinement can be achieved in some of the scenarios, but caution must be taken. For instance, slight modifications to the edge localised mode (ELM) mitigation coils can reduce the confinement by a factor of ten.
 
 % Abstract and title over, format text for the main body
 \setlength{\parindent}{0pt}
@@ -62,15 +84,15 @@ The Spherical Tokamak for Energy Production (STEP) programme is focused on const
 \section{Introduction}
 \label{sec:introduction}
 
-The United Kingdom Atomic Energy Authority (UKAEA) is pioneering efforts to develop a compact prototype of a fusion energy power plant and establish a commercial pathway for fusion energy \cite{nuttall2020, meyer2023}. A crucial factor in the efficiency of a Deuterium-Tritium burning fusion reactor is the confinement of fusion-born $\alpha$-particles. These particles hold the energy that fuels further fusion reactions. Furthermore, it is imperative to minimise particle losses to prevent potential damage to the reactor walls.
+The United Kingdom Atomic Energy Authority (UKAEA) is pioneering efforts to develop a compact prototype of a fusion energy power plant and establish a commercial pathway for fusion energy \cite{nuttall2020, meyer2023}. A crucial factor in the efficiency of a Deuterium-Tritium (D-T) burning fusion reactor is the confinement of fusion-born $\alpha$-particles. These particles hold the energy that fuels further fusion reactions. Furthermore, it is imperative to minimise particle losses to prevent potential damage to the reactor walls.
 
-Ideally, $\alpha$-particles should slow down through Coulomb collisions with thermal electrons and ions, thus transferring their energy to facilitate further fusion reactions. However, under realistic conditions, high-frequency instabilities may divert $\alpha$-ion energy away from the reactor core \cite{belova2015}. Toroidal Alfv\'en eigenmodes (TAEs) exemplify the type of plasma instability that can significantly disrupt plasma confinement. The present research investigates plasma stability against TAEs. The objective is to inform the design process and reduce the probability of TAE instabilities in the system.
+Ideally, $\alpha$-particles should slow down through Coulomb collisions with thermal electrons and ions, thus transferring their energy to facilitate further fusion reactions. However, under realistic conditions, high-frequency instabilities may divert $\alpha$-ion energy away from the reactor core \cite{belova2015}. Toroidal Alfv\'en eigenmodes (TAEs) exemplify the type of plasma instability that can significantly disrupt plasma confinement. The present research investigates plasma stability against TAEs. The objective is to inform the design process and reduce the growth of TAE instabilities in the system.
 
-External heating and current drive for the plasma in STEP during flat-top will be provided entirely by microwaves. This heating strategy will utilize a combination of electron cyclotron current drive and electron Bernstein waves. Detailed information on the proposed heating and current drive systems for STEP is provided in \cite{freethy2023}.
+External heating and current drive for the plasma in STEP during the flat-top configuration will be provided entirely by microwaves. This heating strategy will utilize a combination of electron cyclotron current drive and electron Bernstein waves. Detailed information on the proposed heating and current drive systems for STEP is provided in \cite{freethy2023}.
 This approach has significant implications, as it means that the only substantial population of fast ions will be composed of $\alpha$-particles, which are a product of the fusion reaction itself. Unlike in other tokamak devices such as JET and ITER, STEP will not generate fast ions via neutral beam injectors or ion cyclotron resonance heating systems.
 In this context, `fast ions' are defined as ions with speeds that are significantly greater than those of the background plasma, making them `suprathermal'. For example, in the STEP design, the plasma at the core is expected to reach a temperature of approximately 20 keV (see, e.g. \cite{meyer2023,mitchell2023}), whereas the fusion-born $\alpha$-particles will carry an energy of 3.5 MeV, much higher than the background plasma.
 
-For safety and economic reasons, the plasma-facing components (PFCs) must be able to effectively contain the plasma and be highly durable to prevent frequent damage. During operation, the PFCs will be exposed to heat from various sources, even if disruptions and instabilities are successfully avoided. The wall is exposed to radiation from the plasma, neutron radiation emitted during fusion, thermally charged particles that escape, runaway electrons, erosion due to sputtering, and fast $\alpha$ -particles that escape. This research focuses on the contribution of $\alpha$-particles. See, for example, \cite{zsolt2023} for an overview of the current modelling of the total heat load on the PFCs and \cite{fil2023} for an overview of the modeling of runaway electrons for STEP. Our objective is to maintain the heat load on the wall to be less than approximately $1\, \text{MW/m}^2$ on the first wall, about $5\, \text{MW/m}^2$ on the nose structures, and $10\, \text{MW/m}^2$ on the divertors. It is important to note that our wall, while incorporating limiters, remains smooth and axisymmetric, although the final design will be comparatively less smooth. Consequently, we must achieve lower heat loads to compensate for shadowing, which we estimate could potentially increase the peak heat load.
+For safety and economic reasons, the plasma-facing components (PFCs) must be able to effectively contain the plasma and be highly durable to prevent frequent damage. During operation, the PFCs will be exposed to heat from various sources, even if disruptions and instabilities are successfully avoided. The wall is exposed to radiation from the plasma, neutron radiation emitted during fusion, thermally charged particles that escape, runaway electrons, erosion due to sputtering, and fast $\alpha$ -particles that escape. This research focuses on the contribution of $\alpha$-particles. See, for example, \cite{zsolt2023} for an overview of the current modelling of the total heat load on the PFCs and \cite{fil2023} for an overview of the modeling of runaway electrons for STEP. Our objective is to maintain the heat load on the wall to be less than approximately $1\, \text{MW/m}^2$ on the first wall, about $5\, \text{MW/m}^2$ on the dome structures, and $10\, \text{MW/m}^2$ on the divertors. It is important to note that our wall, while incorporating limiters, remains smooth and axisymmetric, although the final design will be comparatively less smooth. Consequently, we must achieve lower heat loads to compensate for shadowing, which we estimate could potentially increase the peak heat load.
 
 Owing to the high speed of the $\alpha$-particles, which results in large Larmor radii, their confinement can easily be compromised due to deviations in the background magnetic field from axisymmetric to a three-dimensional structure.  In this study, we model $\alpha$-particles in a field that is predominantly axisymmetric, except for two three-dimensional contributions. The first nonaxisymmetric contribution stems from the ripple magnetic field introduced by the use of a finite number of toroidal field (TF) coils. The second arises from edge-localized mode (ELM) \cite{zohm1996} mitigation coils, which generate a three-dimensional field with the aim of suppressing edge-localized modes.
 
@@ -85,43 +107,125 @@ The structure of this paper is as follows: Sec.\ref{sec:locust_work} details our
 \section{Alpha particle confinement}
 \label{sec:locust_work}
 
-The purpose of this section is to calculate the $\alpha$-particle flux that strikes the walls of STEP and determine the peak flux location and magnitude. To gain a better understanding of how our results are affected by different design choices and parameters, we will run simulations with varying parameters and analyze the particle losses. This analysis will be beneficial in the design process, allowing us to reduce the heat load on the reactor walls as much as possible.
+The purpose of this section is to calculate the $\alpha$-particle flux that strikes the walls of STEP and to determine the location and magnitude of the peak flux. To gain a better understanding of how our results are affected by different design choices and parameters, we will run simulations with varying parameters and analyse the particle losses. This analysis will be beneficial in the design process, allowing us to reduce the heat load on the reactor walls as much as possible.
 
 \subsection{Model}
 
-We will calculate the $\alpha$-particle energy flux on the walls of STEP using the LOCUST code. We provide a brief description of the code here, but we suggest reading \cite{akers2018, ward2021} for a more comprehensive explanation of how it works.
+We will calculate the $\alpha$-particle energy flux on the walls of STEP using the LOCUST code. We provide a brief description of the code and how we use it here, but we suggest reading \cite{akers2018, ward2021} for a more comprehensive explanation of how it works.
 
-LOCUST is a Monte Carlo simulation code. It tracks particles, represented by markers, that illustrate samples of the $\alpha$-particle distribution. These markers are traced from their creation until one of two events occur: either they escape and collide with the walls of the tokamak, or their velocity reduces below a certain threshold (namely, 1.5 times the bulk ion temperature). Once their velocity drops below this limit, the particles are considered to have thermalised.
+LOCUST is a Monte Carlo simulation code. It tracks particles, represented by markers, that illustrate samples of the $\alpha$-particle distribution. These markers are traced from their creation until one of two events occur: either they escape and collide with the plasma facing components of the tokamaks, or their velocity reduces below a certain threshold (namely, 1.5 times the bulk ion temperature). Once their velocity drops below this limit, the particles are considered to have thermalised.
 
-We number each marker with an integer $j \in \mathbb{N}$, and we represent the position of the $j^{\text{th}}$ marker at time $t$ by $\textbf{r}_j(t)$.
-We represent the background magnetic field at the position of the marker by $\textbf{B}(\textbf{r}_j)$.
-The forces on the marker due to collisions with the background ions and electrons are denoted by $\textbf{F}_{\alpha,i}(\textbf{r}_j)$ and $\textbf{F}{\alpha,e}(\textbf{r}_j)$, respectively.
+We number each marker with an integer $j \in \mathbb{N}$, and we represent the position of the $j^{\text{th}}$ marker at time $t$ by $\mathbf{x}_j(t)$.
+We represent the background magnetic field at the position of the marker by $\textbf{B}(\mathbf{x}_j)$.
+The forces on the marker due to collisions with the background ions and electrons are denoted by $\textbf{F}_{\alpha,i}(\mathbf{x}_j)$ and $\textbf{F}{\alpha,e}(\mathbf{x}_j)$, respectively.
 Also, the mass and charge of the $\alpha$-particles are denoted with $m_\alpha$ and $q_\alpha$ respectively.
 We model the equation of motion for the $j^{\text{th}}$ marker as:
 \begin{equation}
-m_\alpha\dv[2]{\textbf{r}_j}{t} = q_\alpha\dv{\textbf{r}_j}{t}\cross\textbf{B}(\textbf{r}_j) + \textbf{F}_{\alpha,i}(\textbf{r}_j) + \textbf{F}_{\alpha,e}(\textbf{r}_j).
+m_\alpha\dv[2]{\mathbf{x}_j}{t} = q_\alpha\dv{\mathbf{x}_j}{t}\cross\textbf{B}(\mathbf{x}_j) + \textbf{F}_{\alpha,i}(\mathbf{x}_j) + \textbf{F}_{\alpha,e}(\mathbf{x}_j).
 \end{equation}
 
 As stated in Sec \ref{sec:introduction}, we focus our modelling on the flat-top (steady-state) phase. During this phase, we treat the background magnetic field and bulk plasma as constants. We make the assumption that the influence of the $\alpha$-particles on the background plasma has already been addressed by the simplified models incorporated in the JINTRAC integrated modelling suite.
-Moreover, our simulation does not account for collisions between the $\alpha$-particles. This omission is justified by the fact that the number density of the $\alpha$-particles with energies significantly higher than the background temperature is much lower than the number density of the background ions and electrons. Consequently, each $\alpha$-particle is modelled independently. This approach presents substantial computational advantages as it allows for parallel processing.
+Moreover, our simulation does not account for collisions between the $\alpha$-particles. This omission is justified by the fact that the number density of the $\alpha$-particles with energies significantly higher than the background temperature is much lower than the number density of the background ions and electrons. Consequently, each $\alpha$-particle is modelled independently. This approach presents substantial computational advantages as it allows for parallel  processing.
 To capitalise on this, LOCUST utilises GPU architecture, enabling simultaneous modelling of numerous particles. This approach is computationally more efficient and cost-effective compared to CPU-based modelling.
 
-\begin{itemize}
-    \item Describe the input files to use
-    \item Make a TDMS
-    \item Figure with wall, ELM coils, TF coil, Vacuum vessel, central column in R,Z plane
-\end{itemize}
+We randomly select the initial position and velocity. The position is determined by a probability distribution shaped by the Bosch-Hale D-T reaction rate \cite{bosch1992}. We model the velocity as isotropic, setting the kinetic energy at 3.5 MeV with a minor uncertainty (less than $1\%$) as per Equation 32 in \cite{brysk1973}. The temperature and density profiles, which are used to calculate the reaction rate and collision modeling, are provided by the STEP integrated modeling team's analysis with the JINTRAC coding suite.
+
+Earlier, it was noted that the markers remain tracked until they either thermalise or come into contact with the plasma-facing elements of the tokamak, particularly the inner wall. We use the most recent design of the inner wall for this investigation, which is shown in Fig. \ref{fig:lcfs_wall_elm_tf_coils}. The design of the wall, particularly the divertor region, is still in the process of being developed, with further iterations expected. The current model does not include details of the eventual design, such as the tiles that will cover the final wall. Our model features a smooth surface, which leads to an underestimation of energy flux on the walls because of the lack of shadowing effect of the tiles. Although the wall has a mainly axisymmetric structure, three rows of limiters have been added to the external wall, with eight on the top and bottom rows and four in the middle.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.6\linewidth]{Figures/lcfs_wall_elm_tf_coils.pdf}
+    \caption{This figure depicts the last closed flux surface, inner wall (PFCs), ELM mitigation coils, and TF coils. The left side presents a vertical cross-section, while the right side offers an overhead view of one quarter of the configuration.}
+    \label{fig:lcfs_wall_elm_tf_coils}
+\end{figure}
+
+In this study, the magnetic field is mainly composed of an axisymmetric/2D component, which was calculated using the FIESTA code. This field is generated by the TF and poloidal field (PF) coils, and is modified by the plasma's diamagnetic response. Fig. \ref{fig:lcfs_wall_elm_tf_coils} shows the last closed-flux surface of the axisymmetric field. Additionally, two types of 3D field with a magnitude much smaller than that of the 2D field are included. Despite their small size, these 3D fields can have a large effect on the fast $\alpha$-particle confinement because of their larger gyroradius compared to the bulk plasma ions. Section \ref{sec:tf_ripple_field} models the ripple field produced by the TF coils, and Section \ref{sec:elm_mitigation_field} calculates the impact of the ELM mitigation field on the confinement of the $\alpha$-particles.
 
 \subsection{Results}
 
-\begin{itemize}
-    \item Axisymmetric
-    \item Ripple losees vs Rcoil and Ncoil
-    \item RMP losses with and withour plasma response
-\end{itemize}
+\subsubsection{TF ripple field}
+\label{sec:tf_ripple_field}
+
+The STEP tokamak is distinguished from conventional tokamaks, such as JET and ITER, by its significant vertical elongation in the $z$-direction. The toroidal field (TF) coils of the current design are projected to be around $\si{22.m}$ tall and have a rectangular shape (see Fig. \ref{fig:lcfs_wall_elm_tf_coils}), although this may be altered in the future. Due to these dimensions, the ripple field induced by the TF coils, represented as $\delta\mathbf{B}^\text{ripple}$, can be aptly approximated by the equation:
+% \begin{equation}
+%     \label{eq:ripple_field}
+%     \begin{aligned}
+%         \delta B_R^{\text{ripple}}(R, \phi, z) &= \frac{B_0 R_0}{R} \qty(\frac{R}{R_{\text{coil}}})^{N_{coil}}\sin(N_{\text{coil}}\phi) +  O\qty[\frac{B_0 R_0}{R}\qty(\frac{R}{R_\text{coil}})^{2N_{\text{coil}}}], \\
+%         \delta B_\phi^{\text{ripple}}(R, \phi, z) &= \frac{B_0 R_0}{R} \qty(\frac{R}{R_{\text{coil}}})^{N_{coil}}\cos(N_{\text{coil}}\phi)  +  O\qty[\frac{B_0 R_0}{R}\qty(\frac{R}{R_\text{coil}})^{2N_{\text{coil}}}]\\
+%         \delta B_z^{\text{ripple}}(R, \phi, z) &= O\qty[\frac{B_0 R_0}{R}\qty(\frac{R}{R_\text{coil}})^{2N_{\text{coil}}}],
+%     \end{aligned}
+% \end{equation}
+\begin{equation}
+    \label{eq:ripple_field}
+    \begin{aligned}
+        \delta B_R^{\text{ripple}}(R, \phi, z) &\approx \frac{B_0 R_0}{R} \qty(\frac{R}{R_{\text{coil}}})^{N_{coil}}\sin(N_{\text{coil}}\phi), \\
+        \delta B_\phi^{\text{ripple}}(R, \phi, z) &\approx \frac{B_0 R_0}{R} \qty(\frac{R}{R_{\text{coil}}})^{N_{coil}}\cos(N_{\text{coil}}\phi),\\
+        \delta B_z^{\text{ripple}}(R, \phi, z) &\approx 0.
+    \end{aligned}
+\end{equation}
+Here, $R$ denotes the major radius, $R_0$ is the major radius of the plasma's geometric center, $B_0$ represents the toroidal magnetic field when $R=R_0$, $N_{\text{coil}}$ is the count of TF coils, and $\phi$ gives the toroidal angle, expressed in radians. A derivation of Equation \eqref{eq:ripple_field} can be found in, for example, \cite{mcclements2005}.  When we compared Equation \eqref{eq:ripple_field} with the numerical predictions of the ripple field, the discrepancy was below 1\% on the outer side of the plasma. Furthermore, our simulations, using both methodologies, confirmed concordant results within the given statistical error margins (\textbf{make and cite a TDMS here}).
+
+Fig. \ref{fig:max_and_total_flux_vs_rcoil_and_ncoil} shows the maximum energy flux on the walls and the total flux for different radii of the TF coils and the number of TF coils. The current design, with a major radius of approximately $\si{9.m}$ and 16 TF coils, has power losses that remain within acceptable limits. Increasing the design configuration beyond this will have a minimal effect on improving particle confinement from a fast particle perspective. 
+% Unfortunately, due to the need to fit other instruments such as the vacuum vessel, it is difficult to reduce the outer radius of the TF coil. The results also show that we can reduce the number of TF coils from 16 to 12 without affecting the confinment (assuming a radius of $9\si{.m}$ is maintained).
+Unfortunately, it is difficult to reduce the outer radius of the TF coils due to the need to accommodate other instruments such as the vacuum vessel and PF coils. However, the results indicate that the number of TF coils can be reduced from 16 to 12 without compromising the confinement, provided that the radius of $9\si{.m}$ is maintained.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/max_and_total_flux_vs_rcoil_and_ncoil.pdf}
+    \caption{Figure depicts results from 27 simulations. The left column presents the energy flux on the reactor wall, quantified in $\si{MW.m^{-2}}$. The right column indicates the percentage of the $\alpha$-particle power escaping and impacting the plasma facing components. Error bars represent 95% confidence intervals, reflecting the statistical uncertainty inherent in the
+Monte Carlo methodology of the simulation.}
+    \label{fig:max_and_total_flux_vs_rcoil_and_ncoil}
+\end{figure}
+
+\subsubsection{ELM mitigation field}
+\label{sec:elm_mitigation_field}
+
+In this section, we will model the confinement of $\alpha$-particles with the ELM mitigation field, excluding the ripple field. The ripple field generated by the most recent TF coil design has a minimal effect on the confinement, so the results presented here are our most accurate estimates of the true confinement of the $\alpha$-particles.
+
+The ELM mitigation field we model is created by the coils shown in Fig. \ref{fig:lcfs_wall_elm_tf_coils}. These coils are located outside the vacuum vessel and are used to generate both the error field correction (EFC) field and the ELM mitigation field. Although it is possible that in the future, resistive wall mode suppression coils located inside the vacuum vessel may be used to generate the ELM mitigation field, the current design prefers to use the EFC coils. Additionally, the number of ELM coils may be altered; at present there are 16 (see Fig. \ref{fig:lcfs_wall_elm_tf_coils}), but this could be reduced to 8.
+
+The current in the $k^\text{th}$ coil, $I_k$, is given by an equation of the form
+\begin{equation}
+    \label{eq:ELM_coilcurrent_profile}
+    I_k = I_0 \cos(n \phi_k + \Delta \phi),
+\end{equation}
+where $k$ ranges from 1 to 16, $I_0$ is the maximum current value, $\phi_k$ is the toroidal angle of the centre of the $k^\text{th}$ coil, $n$ is the toroidal mode number chosen to be excited, and $\Delta \phi$ is a free parameter that provides a phase shift. This produces a magnetic field that can be expressed as
+\begin{equation}
+    \delta\textbf{B}^\text{ELM}(R, \phi, z)=\Re\qty[\qty(\delta\textbf{B}^\text{ELM}_\text{real}(R,z) + i\delta\textbf{B}^\text{ELM}_\text{imag}(R,z))\exp[i(n\phi + \Delta \phi)]].
+\end{equation}
+Other Fourier modes in $\phi$ are present, known as sidebands, but they have a small enough amplitude that their effect on $\alpha$-particle confinement can be disregarded when 16 ELM mitigation coils are used. However, if only 8 coils are employed, the sidebands cannot be ignored.
+
+The ELM mitigation fields create a magnetic field, however, this is altered due to its interaction with the plasma. The plasma's reaction is more prominent for lower toroidal mode numbers ($n$). Therefore, for the ripple field, the plasma's response can be disregarded. For ELM mitigation, we plan to set $n=3$. Greater values of $n$ dissipate more quickly away from the coils, decreasing the power efficiency. Smaller values of $n$ may activate locked modes \cite{ryan2022}. Nevertheless, the decision to use $n=3$ may change and so we will also model the case where $n=2$ and $n=4$. To model the plasma response, we used a code called MARS \cite{liu2015}. It is hard to confirm the accuracy of our plasma response calculations and so we will also analyse the results for the case where the vacuum ELM mitigation field is used.
+
+Equation \ref{eq:ELM_coilcurrent_profile} has three adjustable parameters: the toroidal mode number ($n$), the amplitude ($I_0$), and the phase shift $\Delta \phi$. We will consider the cases where $n$ is equal to 2, 3, and 4. To suppress ELMs, $I_0$ must be large enough, but not so large that it reduces $\alpha$-particle confinement. According to experiments conducted on ASDEX Upgrade, \cite{ryan2022} suggests that for $n=2$, a current of 50 kAt is necessary, for $n=3$ a current of 90 kAt is required, and for $n=4$ a current of 150 kAt is needed. However, there is a high degree of uncertainty over what current is needed, so we also model a current with twice these values. Additionally, we will investigate the effect of varying the phase shift of the current profile on fast particle confinement. We will consider $\Delta\phi =$ $0^\circ$, $45^\circ$, $90^\circ$, $135^\circ$, $180^\circ$, $225^\circ$, $270^\circ$, and $315^\circ$.
+
+Fig. \ref{fig:max_and_total_flux_vs_phase} displays the predicted flux of $\alpha$-particle energy on the wall of STEP and the percentage of $\alpha$-power lost, assuming a fusion power of 1.53 GW, which results in a $\alpha$-power of about 304 MW. The results indicate that the results are highly sensitive to the phase shift and a similar phenomenon is observed in \cite{sanchis2018}. Fig. \ref{fig:max_and_total_flux_vs_phase} also shows that the losses are greater when the plasma response to the ELM mitigation field is modelled compared to using the vacuum field. Even when larger current values are used and the plasma response is included, acceptable confinement can be achieved ($<1\si{.MW.m^{^-2}}$) if the right phase shift is chosen. The results demonstrate that better confinement can be achieved for $n=3$ and $n=4$ than for $n=2$. 
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/max_and_total_flux_vs_phase.pdf}
+    % \caption{Caption}
+    % \caption{\parbox{0.9\linewidth}{This figure shows the results from 96 simulations. The left-columns s on the wall in $\si{MW.m^{-2}}$}}
+    \caption{Figure illustrates outcomes from 96 simulations, comparing $\alpha$-particle losses across different ELM mitigation coil parameters. The column arrangement mirrors that of Fig. \ref{fig:max_and_total_flux_vs_rcoil_and_ncoil}.}
+    \label{fig:max_and_total_flux_vs_phase}
+\end{figure}
+
+In Fig. \ref{fig:energy_flux_distribution}, we look in more detail at one of the more conservative but likely scenarios where $n=3$, $I_0= 180\si{.kAt}$, $\Delta \phi = 90^\circ$ and where the plasma response is included. More precisely, Fig. \ref{fig:energy_flux_distribution} shows how the $\alpha$-particle energy flux is distributed along the wall. It shows the maximum $\alpha$-particle energy flux over all values of $\phi$ as a function of poloidal distance along the wall ($s_\theta$). It shows that the largest peak is on the dome in the upper divertor with another significant peak at the end of the outer leg in the bottom divertor.
+
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=0.7\linewidth]{Figures/simple_line_plot_no_confidence_band.png}
+    \caption{This figure illustrates the distribution of the $\alpha$-particle energy flux based on the provided parameters. It depicts the peak $\alpha$-particle energy flux across all $\phi$ values as a function of the poloidal distance, $s_\theta$, along the wall.}
+    \label{fig:energy_flux_distribution}
+\end{figure}
 
 \section{TAE stability calculations}
 \label{sec:halo_work}
+
+\begin{itemize}
+    \item MISHKA shows that TAEs exist
+    \item However, the growth rate is completely suppressed by the thermal plasma. 
+\end{itemize}
 
 \subsection{Model}
 
@@ -130,9 +234,9 @@ To capitalise on this, LOCUST utilises GPU architecture, enabling simultaneous m
 \section{Disussion and conclusions}
 \label{sec:discussion_and_conclusions}
 
-Our research confirms that, as expected, the confinement of alpha particles is sufficient in an axisymmetric system. However, this confinement efficiency deteriorates when the ripple field, arising from the use of a finite number of toroidal field (TF) coils, is introduced. Nevertheless, this poses only minor concerns if we opt to position the TF coils inside the vacuum vessel. Given the current plans to locate the TF coils outside the vacuum vessel, with a major radius greater than approximately 9 meters, this is not expected to present significant problems.
+Our research confirms that, as expected, the confinement of $\alpha$-particles is sufficient in an axisymmetric system. However, this confinement efficiency deteriorates when the ripple field, arising from the use of a finite number of toroidal field (TF) coils, is introduced. Nevertheless, this poses only minor concerns if we opt to position the TF coils inside the vacuum vessel. Given the current plans to locate the TF coils outside the vacuum vessel, with a major radius greater than approximately 9 meters, this is not expected to present significant problems.
 
-The Edge Localised Mode (ELM) mitigation coils pose a more substantial challenge. Our work demonstrates that if the phase between the upper and lower sets of coils is not optimally chosen, it can result in severe complications. Additional research into ELM suppression, particularly for a device with STEP's dimensions, is necessary. Nevertheless, we believe that the work presented here provides valuable insights to inform the design process. This would enable us to find a solution that effectively mitigates ELMs while also maintaining acceptabble $\alpha$-particle losses.
+The Edge Localised Mode (ELM) mitigation coils pose a more substantial challenge. Our work demonstrates that if the phase between the upper and lower sets of coils is not optimally chosen, it can result in severe deterioration of the $\alpha$-particle confinment. Additional research into ELM suppression, particularly for a device with STEP's dimensions, is necessary. Nevertheless, we believe that the work presented here provides valuable insights to inform the design process. This would enable us to find a solution that effectively mitigates ELMs while also maintaining acceptabble $\alpha$-particle losses.
 
 \section*{Acknowledgements}
 
@@ -277,9 +381,49 @@ This work has been funded by STEP, a UKAEA program to design and build a prototy
     (2021)
     086029.
 
+\bibitem{bosch1992} % journal article
+% example: AUTHOR, A., AUTHOR, B., AUTHOR, C., Journal article title in sentence case, Abb. J. Title 1 2 (Year) 120–123.
+    BOSCH, H., HALE, G.,
+    Improved formulas for fusion cross-sections and thermal reactivities,
+    Nucl. Fusion,
+    \textbf{32} 4
+    (1992)
+    611-631.
 
+\bibitem{brysk1973} % journal article
+% example: AUTHOR, A., AUTHOR, B., AUTHOR, C., Journal article title in sentence case, Abb. J. Title 1 2 (Year) 120–123.
+    BRYSK, H.,
+    Fusion neutron energies and spectra,
+    Plasma Phys.,
+    \textbf{15} 7
+    (1973)
+    611-617.
 
+\bibitem{mcclements2005} % journal article
+% example: AUTHOR, A., AUTHOR, B., AUTHOR, C., Journal article title in sentence case, Abb. J. Title 1 2 (Year) 120–123.
+    MCCLEMENTS, K.,
+    Full orbit computations of ripple-induced fusion $\alpha$-particle losses from burning tokamak plasmas,
+    Phys. of Plasmas,
+    \textbf{12} 7
+    (2005)
+    072510.
 
+\bibitem{ryan2022} % internal report
+% example: AUTHOR, A., Internal Report Title in Title Case, internal report, Organization, Location, Year.
+    RYAN, D., 
+    TD-0014685, 
+    internal report, 
+    UKAEA, 
+    2022.
+
+\bibitem{liu2015} % journal article
+% example: AUTHOR, A., AUTHOR, B., AUTHOR, C., Journal article title in sentence case, Abb. J. Title 1 2 (Year) 120–123.
+    LIU, Y., AKERS, R., CHAPMAN, I., et al.,
+    Modelling toroidal rotation damping in ITER due to external 3D fields,
+    Nucl. Fusion,
+    \textbf{55} 6
+    (2015)
+    063027.
 
 
 \end{thebibliography}
