@@ -147,7 +147,7 @@ P_{lost} = P_\alpha \frac{\sum_{j\in \text{\{set of markers that hit the wall\}}
 \end{equation}
 where $P_\alpha$ is the thermonuclear $\alpha$-particle power, which is equal to $\si{338.MW}$ and is derived from the fusion power. Additionally, $\mathbf{v}_{\text{final}, j}$ is the final velocity of the j\textsuperscript{th} marker upon hitting the wall, and $\mathbf{v}_{\text{initial}, j}$ is the initial velocity of the j\textsuperscript{th} marker after generation by nuclear fusion.
 
-To determine whether PFCs can withstand the impacts of the thermonuclear $\alpha$-particles, we need to know the energy flux of the $\alpha$-particles on the wall. Flux is defined as the flow rate per unit area. The total $\alpha$-particle power across the wall is given by $P_{lost}$, while the $\alpha$-particle energy flux is the power on the wall per unit area and is not evenly distributed across the wall. We calculate the energy flux on the wall using kerndel density estimation, and leave-one-out cross-validation to determine the bandwidth as described in  
+To determine whether PFCs can withstand the impacts of the thermonuclear $\alpha$-particles, we need to know the energy flux of the $\alpha$-particles on the wall. Flux is defined as the flow rate per unit area. The total $\alpha$-particle power across the wall is given by $P_{lost}$, while the $\alpha$-particle energy flux is the power on the wall per unit area and is not evenly distributed across the wall. We calculate the energy flux on the wall using kernel density estimation \cite{chen2017} and leave-one-out cross-validation \cite{chen2017} to determine the bandwidth. We also use bootstrap resampling to calculate 95\% confidence intervals for the maximum $\alpha$-particle energy flux \cite{chen2017}.
 
 
 \subsection{Results}
@@ -415,6 +415,15 @@ This work has been funded by STEP, a UKAEA program to design and build a prototy
     \textbf{15} 7
     (1973)
     611-617.
+
+\bibitem{chen2017} % journal article
+% example: AUTHOR, A., AUTHOR, B., AUTHOR, C., Journal article title in sentence case, Abb. J. Title 1 2 (Year) 120–123.
+    CHEN, Yen-Chi,
+    A tutorial on kernel density estimation and recent advances,
+    Biostat. Epidemiol,
+    \textbf{1} 1
+    (2017)
+    161-187.
 
 \bibitem{mcclements2005} % journal article
 % example: AUTHOR, A., AUTHOR, B., AUTHOR, C., Journal article title in sentence case, Abb. J. Title 1 2 (Year) 120–123.
