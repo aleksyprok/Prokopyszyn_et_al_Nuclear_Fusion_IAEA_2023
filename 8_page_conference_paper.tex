@@ -38,7 +38,8 @@
 \fancyhead[CE]{\fontsize{8}{10}\selectfont \textbf{IAEA-CN-316/2143}}
 \fancyhead[CO]{\fontsize{8}{10}\selectfont \textbf{PROKOPYSZYN et al.}}
 \fancyfoot[RO]{\fontsize{10}{13}\selectfont \thepage}
-\pagestyle{fancy}
+% \pagestyle{fancy}
+\pagestyle{plain}
 
 % Set the caption font size to 9pt
 \DeclareCaptionFont{ninept}{\fontsize{9pt}{12pt}\selectfont}
@@ -93,18 +94,16 @@ Because of their large Larmor radii, the confinement of $\alpha$-particles can e
 STEP will need to operate in high-confinement mode (H-mode), and therefore type-I ELMs may pose a significant problem. ELM suppression using RMP coils has been successfully demonstrated experimentally in medium-sized conventional tokamaks such as ASDEX Upgrade \cite{suttrop2018}. However, the non-axisymmetric RMP fields violate conservation of fast ion toroidal canonical momentum, and can thus deconfine these ions. The effects of RMPs on fast ions have been studied in DIII-D, ASDEX Upgrade, and ITER \cite{van2015,sanchis2018,ward2022}. At present, there is no definitive set of criteria for ELM suppression. Therefore, the ELM suppression coils for STEP should be flexible enough to experimentally determine an optimal configuration, and it is necessary to model $\alpha$-particle losses for a range of RMP scenarios.
 We only consider the plasma during the flat-top phase as $\alpha$-particle production will be negligible for the greater part of the ramp-up and ramp-down phases. In order to accurately model the $\alpha$-particles we require profiles of temperature and density as well as the magnetic field. These profiles have been determined using the integrated modelling suite JINTRAC \cite{meyer2023, mitchell2023}. This sophisticated tool incorporates a wide range of physics processes, including simplified fast ion models, providing a comprehensive basis for our analysis.
 
-The structure of this paper is as follows. Section\ref{sec:locust_work} details our efforts using the LOCUST code to model $\alpha$-particle in the flat-top and compute the associated heat load on the wall. In this section, background quantities, such as the magnetic field, are held constant. Conversely, in Section \ref{sec:halo_work}, we incorporate the magnetic field's response to alpha particles and assess the Toroidal Alfven Eigenmodes (TAE) stability of the plasma using the HALO code. Both Section \ref{sec:locust_work} and Section \ref{sec:halo_work} start with a presentation and explanation of the model and input files used, followed by the results obtained from our simulations. Finally, in Section \ref{sec:discussion_and_conclusions}, we summarise our findings and discuss their implications.
+The structure of this paper is as follows. Section\ref{sec:locust_work} details our efforts using the LOCUST code to model $\alpha$-particle in the flat-top and compute the associated heat load on the wall. In this section, background quantities, such as the magnetic field, are held constant. In Section \ref{sec:halo_work} we consider the magnetic field's response to the presence of $\alpha$-particles and assess TAE stability using the HALO code. In Section \ref{sec:discussion_and_conclusions}, we summarise our findings and discuss their implications.
 
 \section{Alpha particle confinement}
 \label{sec:locust_work}
 
-The purpose of this section is to calculate the $\alpha$-particle flux that strikes the walls of STEP and to determine the location and magnitude of the peak flux. To gain a better understanding of how our results are affected by different design choices and parameters, we will run simulations with varying parameters and analyse the particle losses. This analysis will be beneficial in the design process, allowing us to reduce the heat load on the reactor walls as much as possible.
+Our purpose in this section is to calculate the $\alpha$-particle flux that strikes the walls of STEP and to determine the location and magnitude of the peak flux. To gain a better understanding of how our results are affected by different design choices and parameters, we have run simulations with varying parameters and analysed the particle losses. This analysis is beneficial in the design process, allowing us to identify scenarios that minimise the heat load on the reactor walls.
 
 \subsection{Model}
 
-We will calculate the $\alpha$-particle energy flux on the walls of STEP using the LOCUST code. We provide a brief description of the code and how we use it here, but we suggest reading \cite{akers2018, ward2021} for a more comprehensive explanation of how it works.
-
-LOCUST is a Monte Carlo simulation code. It tracks particles, represented by markers, that illustrate samples of the $\alpha$-particle distribution. These markers are traced from their creation until one of two events occur: either they escape and collide with the plasma facing components of the tokamaks, or their velocity reduces below a certain threshold (namely, 1.5 times the bulk ion temperature). Once their velocity drops below this limit, the particles are considered to have thermalised.
+We calculate the $\alpha$-particle energy flux on the walls of STEP using the LOCUST code \cite{akers2018, ward2021} for a more comprehensive explanation of how it works. This tracks particles, represented by markers, that represent samples of the $\alpha$-particle distribution. These markers are traced from their creation until they escape and collide with PFCs, or their velocity reduces below a certain threshold (namely, 1.5 times the bulk ion temperature). Once their velocity drops below this limit, the particles are considered to have thermalised.
 
 We number each marker with an integer $j \in \mathbb{N}$, and we represent the position of the $j^{\text{th}}$ marker at time $t$ by $\mathbf{x}_j(t)$.
 We represent the background magnetic field at the position of the marker by $\textbf{B}(\mathbf{x}_j)$.
