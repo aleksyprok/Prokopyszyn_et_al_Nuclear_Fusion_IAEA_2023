@@ -75,7 +75,7 @@ Email: alex.prokopysyzn@ukaea.uk
 \setlength{\parindent}{1cm}
 \fontsize{9}{12pt}\selectfont
 
-The Spherical Tokamak for Energy Production (STEP) programme is focused on constructing a fusion power plant prototype that will generate approximately 1.6-1.7 GW of deuterium-tritium fusion energy. To achieve this, the $\alpha$-particles generated through fusion must be adequately confined to maintain the necessary high temperature in the core of the plasma and to protect the wall from too much damage. Microwaves will be used for both external heating and current drive, making $\alpha$-particles the only significant fast-ion species. The purpose of this work is to model the confinement of $\alpha$-particles and the toroidal Alfvén eigenmodes (TAEs) driven by these particles in a variety of scenarios to help determine the best configuration. The scenarios examined here have been identified by the STEP team as potential flat-top operating configurations. We use LOCUST (Lorentz Orbit Code for Use in Stellerators and Tokamaks) to model the $\alpha$-particle confinement and heat-load distribution on the wall, and HALO (HAgis LOcust) to model the TAEs. The results indicate that adequate confinement can be achieved in candidate flat-top operating points, but the results are sensitive to some of the system parameters. For instance, a change in the phase difference between upper and lower edge localised mode (ELM) mitigation coils can increase the peak first wall power loading due to $\alpha$-particle losses by a factor of ten.
+The Spherical Tokamak for Energy Production (STEP) programme is focused on constructing a state-of-the-art fusion power plant prototype that will generate approximately 1.6-1.7 GW of deuterium-tritium fusion energy. To achieve this, the $\alpha$-particles generated through fusion must be adequately confined to maintain the necessary high temperature in the core of the plasma and to protect the wall from too much damage. Microwaves are used for both external heating and current drive, making $\alpha$-particles the only significant fast-ion species. The purpose of this research is to model the confinement of $\alpha$-particles and the toroidal Alfvén eigenmodes (TAEs) driven by these particles in a variety of plasma scenarios to help determine the best configuration. The scenarios examined here have been identified by the STEP team as potential flat-top operating configurations. We use LOCUST (Lorentz Orbit Code for Use in Stellerators and Tokamaks) to model the $\alpha$-particle confinement and heat-load distribution on the wall, and HALO (HAgis LOcust) to model the TAEs. The results indicate that adequate confinement can be achieved in some of the scenarios, but caution must be taken. For instance, slight modifications to the edge localised mode (ELM) mitigation coils can reduce the confinement by a factor of ten.
 
 % Abstract and title over, format text for the main body
 \setlength{\parindent}{0pt}
@@ -84,16 +84,25 @@ The Spherical Tokamak for Energy Production (STEP) programme is focused on const
 \section{Introduction}
 \label{sec:introduction}
 
-UKAEA is pioneering efforts to develop a compact prototype of a fusion energy power plant and establish a commercial pathway for fusion energy \cite{nuttall2020, meyer2023}. A crucial factor in the viability of a deuterium-tritium (D-T) burning fusion reactor is the confinement of fusion-born $\alpha$-particles since, in addition to providing most of the plasma heating, these particles have the potential to damage the reactor walls when unconfined. Ideally, $\alpha$-particles should slow down through Coulomb collisions with thermal electrons and ions while undergoing a modest level of (purely collisional) transport. However, they can drive high-frequency instabilities that may in turn transport them at rates that are well above collisional levels \cite{garcia-munoz2011}. Toroidal Alfv\'en eigenmodes (TAEs) exemplify the type of plasma instability that can significantly disrupt plasma confinement. In the present work we model $\alpha$-particle losses in the presence of static magnetic fields and determine the stability of TAEs in candidate STEP plasmas with the objective of informing the design process for this device.
+The United Kingdom Atomic Energy Authority (UKAEA) is pioneering efforts to develop a compact prototype of a fusion energy power plant and establish a commercial pathway for fusion energy \cite{nuttall2020, meyer2023}. A crucial factor in the efficiency of a Deuterium-Tritium (D-T) burning fusion reactor is the confinement of fusion-born $\alpha$-particles. These particles hold the energy that fuels further fusion reactions. Furthermore, it is imperative to minimise particle losses to prevent potential damage to the reactor walls.
 
-For safety and economic reasons, the plasma-facing components (PFCs) must contain the plasma and be highly durable to prevent frequent damage. During operation, the PFCs will be exposed to heat from various sources, even if disruptions are successfully avoided. The wall will be exposed to electromagnetic radiation from the plasma, neutrons, thermal charged particles, runaway electrons, erosion due to sputtering, and $\alpha$-particles. We consider here the contribution of $\alpha$-particles. See, for example, \cite{bachmann2018} for a discussion {\it inter alia} of the heat loads on PFCs in a conventional tokamak reactor and \cite{fil2023} for an overview of the modeling of runaway electrons for STEP. Our objective is to maintain the heat load on the wall at a level less than approximately $1\, \text{MWm}^{-2}$ on the main chamber first wall, about $5\, \text{MWm}^{-2}$ on dome structures in the divertor regions, and $10\, \text{MWm}^{-2}$ on the divertors themselves. It is important to note that our wall, while incorporating limiters, remains smooth and axisymmetric, although the final design will be comparatively less smooth. Consequently, we must achieve lower heat loads to compensate for shadowing, which can increase the peak heat load.
+Ideally, $\alpha$-particles should slow down through Coulomb collisions with thermal electrons and ions, thus transferring their energy to facilitate further fusion reactions. However, under realistic conditions, high-frequency instabilities may divert $\alpha$-ion energy away from the reactor core \cite{belova2015}. Toroidal Alfv\'en eigenmodes (TAEs) exemplify the type of plasma instability that can significantly disrupt plasma confinement. The present research investigates plasma stability against TAEs. The objective is to inform the design process and reduce the growth of TAE instabilities in the system.
 
-Because of their large Larmor radii, the confinement of $\alpha$-particles can easily be compromised due to deviations in the background magnetic field from axisymmetry.  In this study, we model $\alpha$-particles in fields that are axisymmetric except for two types of three-dimensional perturbation. The first of these stems from the ripple introduced by the use of a finite number of toroidal field (TF) coils. The second arises from coils that generate resonant magnetic perturbations (RMPs) aimed at suppressing edge-localized modes (ELMs) \cite{zohm1996}.
+External heating and current drive for the plasma in STEP during the flat-top configuration will be provided entirely by microwaves. This heating strategy will utilize a combination of electron cyclotron current drive and electron Bernstein waves. Detailed information on the proposed heating and current drive systems for STEP is provided in \cite{freethy2023}.
+This approach has significant implications, as it means that the only substantial population of fast ions will be composed of $\alpha$-particles, which are a product of the fusion reaction itself. Unlike in other tokamak devices such as JET and ITER, STEP will not generate fast ions via neutral beam injectors or ion cyclotron resonance heating systems.
+In this context, `fast ions' are defined as ions with speeds that are significantly greater than those of the background plasma, making them `suprathermal'. For example, in the STEP design, the plasma at the core is expected to reach a temperature of approximately 20 keV (see, e.g. \cite{meyer2023,mitchell2023}), whereas the fusion-born $\alpha$-particles will carry an energy of 3.5 MeV, much higher than the background plasma.
 
-STEP will need to operate in high-confinement mode (H-mode), and therefore type-I ELMs may pose a significant problem. ELM suppression using RMP coils has been successfully demonstrated experimentally in medium-sized conventional tokamaks such as ASDEX Upgrade \cite{suttrop2018}. However, the non-axisymmetric RMP fields violate conservation of fast ion toroidal canonical momentum, and can thus deconfine these ions. The effects of RMPs on fast ions have been studied in DIII-D, ASDEX Upgrade, and ITER \cite{van2015,sanchis2018,ward2022}. At present, there is no definitive set of criteria for ELM suppression. Therefore, the ELM suppression coils for STEP should be flexible enough to experimentally determine an optimal configuration, and it is necessary to model $\alpha$-particle losses for a range of RMP scenarios.
-We only consider the plasma during the flat-top phase as $\alpha$-particle production will be negligible for the greater part of the ramp-up and ramp-down phases. In order to accurately model the $\alpha$-particles we require profiles of temperature and density as well as the magnetic field. These profiles have been determined using the integrated modelling suite JINTRAC \cite{meyer2023, mitchell2023}. This sophisticated tool incorporates a wide range of physics processes, including simplified fast ion models, providing a comprehensive basis for our analysis.
+For safety and economic reasons, the plasma-facing components (PFCs) must be able to effectively contain the plasma and be highly durable to prevent frequent damage. During operation, the PFCs will be exposed to heat from various sources, even if disruptions and instabilities are successfully avoided. The wall is exposed to radiation from the plasma, neutron radiation emitted during fusion, thermally charged particles that escape, runaway electrons, erosion due to sputtering, and fast $\alpha$ -particles that escape. This research focuses on the contribution of $\alpha$-particles. See, for example, \cite{zsolt2023} for an overview of the current modelling of the total heat load on the PFCs and \cite{fil2023} for an overview of the modeling of runaway electrons for STEP. Our objective is to maintain the heat load on the wall to be less than approximately $1\, \text{MW/m}^2$ on the first wall, about $5\, \text{MW/m}^2$ on the dome structures, and $10\, \text{MW/m}^2$ on the divertors. It is important to note that our wall, while incorporating limiters, remains smooth and axisymmetric, although the final design will be comparatively less smooth. Consequently, we must achieve lower heat loads to compensate for shadowing, which can increase the peak heat load.
 
-The structure of this paper is as follows. Section\ref{sec:locust_work} details our efforts using the LOCUST code to model $\alpha$-particle in the flat-top and compute the associated heat load on the wall. In this section, background quantities, such as the magnetic field, are held constant. Conversely, in Section \ref{sec:halo_work}, we incorporate the magnetic field's response to alpha particles and assess the Toroidal Alfven Eigenmodes (TAE) stability of the plasma using the HALO code. Both Section \ref{sec:locust_work} and Section \ref{sec:halo_work} start with a presentation and explanation of the model and input files used, followed by the results obtained from our simulations. Finally, in Section \ref{sec:discussion_and_conclusions}, we summarise our findings and discuss their implications.
+Because of the high speed of the $\alpha$-particles, which results in large Larmor radii, their confinement can easily be compromised due to deviations in the background magnetic field from axisymmetric to a three-dimensional structure.  In this study, we model $\alpha$-particles in a field that is predominantly axisymmetric, except for two three-dimensional contributions. The first nonaxisymmetric contribution stems from the ripple magnetic field introduced by the use of a finite number of toroidal field (TF) coils. The second arises from edge-localized mode (ELM) \cite{zohm1996} mitigation coils, which generate a three-dimensional field with the aim of suppressing edge-localized modes.
+
+STEP aims to operate in high-confinement mode (H-mode) \cite{wagner1982}, as a result, type-I ELMs may pose a significant problem. To address this issue, STEP will employ ELM mitigation coils to generate resonant magnetic perturbations to suppress ELMs. This approach has been successfully demonstrated experimentally in previous studies, such as \cite{suttrop2018}. However, the field created by the ELM mitigation coils disrupts the axisymmetry of the system and consequently affects the confinement of fast ions. The implications of resonant magnetic perturbation on fast ions have been studied in DIII-D, ASDEX Upgrade, and ITER, as referenced in \cite{van2015,sanchis2018,ward2022}. At present, there is no definitive set of criteria for ELM suppression. Therefore, the ELM suppression coils for STEP should be flexible enough to experimentally determine an optimal configuration. Consequently, it is essential to model fast ion losses over a variety of potential resonant magnetic perturbation scenarios. This research will focus on this important modelling effort.
+
+This research will only consider the plasma during the flat-top phase, as this is when the $\alpha$-particle power is at its peak. Nevertheless, it is also essential to investigate the alpha particle confinement during the ramp-up and ramp-down phases in the near future.
+
+In order to accurately model the $\alpha$-particles, we require detailed data on temperature, density, and the background magnetic field. Fortunately, the STEP integrated modelling team has provided us with predictions for these parameters. Specifically, we have information about the flat-top temperature and density, along with a 2D representation of the magnetic field. These predictions were generated using the integrated modelling suite, JINTRAC \cite{meyer2023, mitchell2023}. This sophisticated tool incorporates a wide range of physics, including the application of simplified fast-ion models, providing a comprehensive basis for our analysis.
+
+The structure of this paper is as follows. Section\ref{sec:locust_work} details our efforts to model $\alpha$-particle confinement in the flat-top scenario and compute the associated losses and heat load on the wall using the LOCUST code. In this section, background quantities, such as the magnetic field, are held constant. Conversely, in Section \ref{sec:halo_work}, we incorporate the magnetic field's response to alpha particles and assess the Toroidal Alfven Eigenmodes (TAE) stability of the plasma using the HALO code. Both Section \ref{sec:locust_work} and Section \ref{sec:halo_work} start with a presentation and explanation of the model and input files used, followed by the results obtained from our simulations. Finally, in Section \ref{sec:discussion_and_conclusions}, we summarise our findings and discuss their implications.
 
 \section{Alpha particle confinement}
 \label{sec:locust_work}
@@ -273,14 +282,14 @@ This work has been funded by STEP, a UKAEA program to design and build a prototy
     London, UK, 
     2023
 
-\bibitem{garcia-munoz2011} % journal article
+\bibitem{belova2015} % journal article
 % example: AUTHOR, A., AUTHOR, B., AUTHOR, C., Journal article title in sentence case, Abb. J. Title 1 2 (Year) 120–123.
-    GARC\'IA-MU\~NOZ, M., CLASSEN, I.G.J., GEIGER, B., et al., 
-    Fast ion transport induced by Alfv\'en eigenmodes in the ASDEX Upgrade tokamak, 
-    Nucl. Fusion 
-    \textbf{51} 
+    BELOVA, E., GORELENKOV, N., FREDRICKSON, E., et al., 
+    Coupling of neutral-beam-driven compressional Alfv\'en eigenmodes to kinetic Alfv\'en waves in NSTX tokamak and energy channeling, 
+    Phys. Rev. Lett. 
+    \textbf{115} 1 
     (2015) 
-    103013.
+    015001.
 
 \bibitem{freethy2023} % poster at conference
 % example: PRESENTER, A., “Title of presentation in sentence case”, Paper No., paper presented at Organization seminar on subject, Location, year.
@@ -300,14 +309,13 @@ This work has been funded by STEP, a UKAEA program to design and build a prototy
     (2023) 
     113777.
 
-\bibitem{bachmann2018} % internal report
+\bibitem{zsolt2023} % internal report
 % example: AUTHOR, A., Internal Report Title in Title Case, internal report, Organization, Location, Year.
-    BACHMANN, C., CIATTAGLIA, S., CISMONDI, F., et al., 
-    Overview over DEMO design integration challenges and their impact on component design concepts, 
-    Fusion Eng. Des. 
-    \textbf{136} 
-    (2018)
-    87.
+    ZSOLT, V., et al., 
+    TD-001004, 
+    internal report, 
+    UKAEA, 
+    2023.
 
 \bibitem{fil2023} % poster at conference
 % example: PRESENTER, A., “Title of presentation in sentence case”, Paper No., paper presented at Organization seminar on subject, Location, year.
@@ -326,6 +334,15 @@ This work has been funded by STEP, a UKAEA program to design and build a prototy
     \textbf{38} 2 
     (1996) 
     105.
+
+\bibitem{wagner1982} % journal article
+% example: AUTHOR, A., AUTHOR, B., AUTHOR, C., Journal article title in sentence case, Abb. J. Title 1 2 (Year) 120–123.
+    WAGNER, F., BECKER, G., BEHRINGER, K., et al., 
+    Regime of improved confinement and high beta in neutral-beam-heated divertor discharges of the ASDEX tokamak, 
+    Phys. Rev. Lett. 
+    \textbf{49} 19
+    (1982) 
+    1408.
 
 \bibitem{suttrop2018} % journal article
 % example: AUTHOR, A., AUTHOR, B., AUTHOR, C., Journal article title in sentence case, Abb. J. Title 1 2 (Year) 120–123.
