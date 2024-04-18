@@ -17,9 +17,9 @@
 \usepackage{ulem} % Enables strikethrough text with \sout command.
 
 % This code is used to supress \qty warning conflict between siunitx and physics packages
-% \ExplSyntaxOn
-% \msg_redirect_name:nnn { siunitx } { physics-pkg } { none }
-% \ExplSyntaxOff
+\ExplSyntaxOn
+\msg_redirect_name:nnn { siunitx } { physics-pkg } { none }
+\ExplSyntaxOff
 
 \setlength{\parskip}{10pt}
 
@@ -173,7 +173,7 @@ Unfortunately, it is difficult to save costs by reducing the outer radius of the
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=0.99\linewidth]{Figures/max_and_total_flux_vs_rcoil_and_ncoil.pdf}
+    \includegraphics[width=0.99\linewidth]{Figures/max_and_total_flux_vs_rcoil.pdf}
     \caption{TF ripple-induced losses for three values of $N_{coil}$ (the number of TF coils). The left plot shows the maximum energy flux on the reactor wall in $\si{MW.m^{-2}}$ and the right plot indicates the percentage of $\alpha$-particle power escaping and impacting the PFCs. Error bars represent 95\% confidence intervals, reflecting the statistical uncertainty inherent in the Monte Carlo methodology of the simulation. The black horizontal dotted line shows the results from a simulation where we used only the axisymmetric field.}
     \label{fig:max_and_total_flux_vs_rcoil_and_ncoil}
 \end{figure}
@@ -226,14 +226,14 @@ Fig. \ref{fig:max_and_total_flux_vs_phase_elm_rwm} and \ref{fig:max_and_total_fl
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=0.99\linewidth]{Figures/max_and_total_flux_vs_phase_rwm.pdf}
+    \includegraphics[width=0.99\linewidth]{Figures/max_and_total_flux_vs_phase_interior_rmp.pdf}
     \caption{Maximum energy flux (left plots) and percentage heating power lost (right plots) due to deconfined $\alpha$-particles versus ELM suppression coil current phase shift $\Delta\phi$ for different values of $n$ and $I_0$ when in-vessel coils are used. Dashed curves were obtained with vacuum fields, while solid curves show the losses when the plasma response to the perturbations was included. The horizontal dotted line shows results from a simulation in which only the axisymmetric field was used, and the vertical dotted line gives the optimum phase $\Delta \phi_{opt}$ for ELM suppression.}
     \label{fig:max_and_total_flux_vs_phase_elm_rwm}
 \end{figure}
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=0.99\linewidth]{Figures/max_and_total_flux_vs_phase_efcc.pdf}
+    \includegraphics[width=0.99\linewidth]{Figures/max_and_total_flux_vs_phase_exterior_rmp.pdf}
     % \caption{Caption}
     % \caption{\parbox{0.9\linewidth}{This figure shows the results from 96 simulations. The left-columns s on the wall in $\si{MW.m^{-2}}$}}
     \caption{As Fig. \ref{fig:max_and_total_flux_vs_phase_elm_rwm} except that ex-vessel coils are employed to suppress ELMs in this case.}
@@ -254,7 +254,7 @@ In the right-hand plot of Fig. \ref{fig:energy_flux_distribution}, the boundarie
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=0.99\linewidth]{Figures/simple_line_plot_no_confidence_band.png}
+    \includegraphics[width=0.99\linewidth]{Figures/energy_flux_distribution_rmp.pdf}
     \caption{Distribution of peak $\alpha$-particle energy flux maximised over toroidal angle in poloidal cross-section (left) and versus poloidal distance $s_\theta$ along the wall (right plot). Both graphs display the maximum alpha particle energy flux, denoted as $S_{max}$, measured in $\si{MW.m^{-2}}$. The definition of $S_{max}$ can be found in Equation \eqref{eq:max_alpha_particle_energy_flux}.}
     \label{fig:energy_flux_distribution}
 \end{figure}
@@ -271,7 +271,7 @@ In \cite{xia2023}, the authors model the RWM and the response of the active feed
 
 \begin{figure}[!htb]
     \centering
-    \includegraphics[width=0.99\linewidth]{Figures/max_and_total_flux_vs_bscale_rwm.pdf}
+    \includegraphics[width=0.99\linewidth]{Figures/max_and_total_flux_vs_bscale.pdf}
     \caption{Maximum energy flux (left plot) and percentage heating power lost (right plot) due to deconfined $\alpha$-particles versus RWM amplitude at the sensors located near the RWM control coils. In this case the only non-axisymmetric field is that arising from the RWM. The results in the axisymmetric limit are again shown by dotted horizontal lines.}
     \label{fig:max_and_total_flux_vs_bscale_rwm}
 \end{figure}
