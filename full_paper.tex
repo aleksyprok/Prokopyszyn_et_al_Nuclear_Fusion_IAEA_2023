@@ -93,7 +93,7 @@ External heating and current drive for the plasma in STEP during the flat-top co
 This approach has significant implications, as it means that the only substantial population of fast ions will be composed of $\alpha$-particles, which are a product of the fusion reaction itself. Unlike other tokamak devices such as JET and ITER, STEP will not generate fast ions via neutral beam injectors or ion cyclotron resonance heating systems.
 In this context, `fast ions' are defined as ions with speeds that are significantly greater than those of the background plasma, making them suprathermal. For example, in the STEP design, the plasma at the core is expected to reach a temperature of approximately 20 keV (see, e.g. \cite{meyer2023,mitchell2023}), whereas the fusion-born $\alpha$-particles will be born with energies of around 3.5 MeV, much higher than the background plasma.
 
-The commercial viability of STEP will rely on the longevity of the plasma-facing components. During operation, the PFCs (plasma facing components) will be exposed to heat from various sources, even if disruptions are successfully avoided. The wall will be exposed to electromagnetic radiation from the plasma, neutrons, thermal charged particles, runaway electrons, erosion due to sputtering, and $\alpha$-particles. Here, we consider the contribution of $\alpha$-particles. See, for example, \cite{bachmann2018} for a discussion {\it inter alia} of the heat loads on PFCs in a conventional tokamak reactor and \cite{Berger2022} for a study of runaway electron dynamics in STEP-like plasmas undergoing disruptions. Our objective is to maintain the heat load on the wall at a level less than approximately $1\, \text{MWm}^{-2}$ on the first wall of the main chamber, about $5\, \text{MWm}^{-2}$ on the dome structures in the divertor regions, and $10\, \text{MWm}^{-2}$ on the divertors themselves. It is important to note that the model used in the paper, while incorporating limiters, remains smooth. The final design will include tiles and so will be less smooth than the model wall used for this study. Consequently, we should aim for somewhat lower energy fluxes to compensate for shadowing, which can increase the maximum heat load.
+The commercial viability of STEP will rely on the longevity of the plasma-facing components. During operation, the PFCs (plasma facing components) will be exposed to heat from various sources, even if disruptions are successfully avoided. The wall will be exposed to electromagnetic radiation from the plasma, neutrons, thermal charged particles, runaway electrons, erosion due to sputtering, and $\alpha$-particles. Here, we consider the contribution of $\alpha$-particles. See, for example, \cite{bachmann2018} for a discussion {\it inter alia} of the heat loads on PFCs in a conventional tokamak reactor and \cite{Berger2022} for a study of runaway electron dynamics in STEP-like plasmas undergoing disruptions. Our objective is to maintain the heat load on the wall at a level less than approximately $1\, \text{MWm}^{-2}$ on the first wall of the main chamber, about $5\, \text{MWm}^{-2}$ on the dome structures in the divertor regions, and $10\, \text{MWm}^{-2}$ on the divertors themselves. Given that the design of the PFCs in STEP is still in its early stages, the plasma-facing components in our model are primarily smooth, resulting in the neglect of tile shadowing effects. Consequently, we should aim for somewhat lower energy fluxes to compensate for shadowing, which can increase the maximum heat load.
 
 Because of their large energies, the confinement of $\alpha$-particles can easily be compromised due to deviations in the background magnetic field from axisymmetry.  In this study, we model $\alpha$-particles in fields that are axisymmetric, except for three types of three-dimensional perturbation. The first of these stems from the ripple introduced by the use of a finite number of toroidal field (TF) coils. The second arises from coils that generate resonant magnetic perturbations (RMPs) aimed at suppressing edge-localized modes (ELMs) \cite{zohm1996}. The last three-dimensional field comes from the RWM active feedback control coils used to suppress resistive wall modes (RWMs) \cite{xia2023}.
 
@@ -109,10 +109,40 @@ The structure of this paper is as follows. Section \ref{sec:locust_work} details
 Our goal in this section is to calculate the $\alpha$-particle flux that strikes the walls of STEP and to determine the location and magnitude of the peak flux. To gain a better understanding of how our results are affected by different design choices and parameters, we have run simulations with varying parameters and analysed the particle losses. This analysis is beneficial in the design process, allowing us to identify scenarios that minimise the heat load on the reactor walls.
 
 \subsection{Model}
+\label{sec:model}
 
-We calculate the $\alpha$-particle energy flux on the walls of STEP using the LOCUST code (see \cite{akers2018, ward2021} for a more comprehensive explanation of how it works). This tracks particles, represented by markers which sample the $\alpha$-particle distribution. These markers are traced from birth until they escape and collide with PFCs, or their energy drops below a threshold equal to 1.5 times the bulk ion temperature, at which point they are considered to have thermalised. 
+We calculate the $\alpha$-particle energy flux on the walls of STEP using the LOCUST code (see \cite{akers2018, ward2021} for a more comprehensive explanation of how it works). This tracks particles, represented by markers that sample the $\alpha$-particle distribution. These markers are traced from birth until they escape and collide with PFCs, or their energy drops below a threshold equal to 1.5 times the bulk ion temperature, at which point they are considered to have thermalised. 
 
-We randomly select the initial positions and velocities. The positions are determined by a probability distribution shaped by the Bosch-Hale D-T reaction rate \cite{bosch1992}. We model the birth velocity distribution as isotropic. The energy is normally distributed with a mean kinetic energy of 3.5 MeV and a standard deviation of about 6\% \cite{brysk1973}. The reaction rate is assumed to be purely thermal, with temperature and density profiles from transport simulations.
+We model the backgound quantities as fixed. Fig. \ref{fig:background_plasma_profiles} shows some profiles of the background plasma as a function of the normalised poloidal flux $\Psi_N$. 
+The top left of Fig. \ref{fig:background_plasma_profiles} shows temperature profiles for the ions ($T_i$) and electrons ($T_e$) in keV. 
+The top right shows the safety factor profile. 
+The bottom left shows the profiles of all the background particle species: electrons ($n_e$), deuterium ($n_D$), tritium ($n_T$), xenon ($n_{Xe}$) and helium ($n_{He}$) in $m^{-3}$. 
+The bottom right shows the Bosch-Hale D-T reaction rate \cite{bosch1992} in $m^{-3} s^{-1}$. 
+Similarly, some of the key values of the background plasma are given in Table \ref{table:fusion_params}. Note that  $R_{\text{axis}}$ represents the major radius of the magnetic axis, $B_{\text{axis}}$ denotes the magnetic field strength at the magnetic axis, $I_{\text{p}}$ is the total plasma current, $Z_{\text{eff}}$ is the effective atomic number of the plasma, $P_{\text{fusion}}$ is the total fusion power, and $P_{\alpha}$ represents the portion of the fusion power carried by thermonuclear alpha particles.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/background_plasma_curves.pdf}
+    \caption{Profiles of key background plasma quantities as a function of the normalised poloidal flux, $\psi_N$.}
+    \label{fig:background_plasma_profiles}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{ccccccc}
+\hline
+$R_{\text{axis}}$ & $B_{\text{axis}}$ & $I_{\text{p}}$ & $Z_{\text{eff}}$ & $P_{\text{fusion}}$ & $P_{\alpha}$ \\
+\hline
+4.38 m & 2.45 T & 20.10 MA & 2.73 & 1.66 GW & 0.33 GW \\
+\hline
+\end{tabular}
+\caption{Key quantities of the background plasma model.}
+\label{table:fusion_params}
+\end{table}
+
+The initial position of the markers we use to represent samples of the thermonuclear alpha particle distribution function are sampled randomly and uniformly across the plasma volume. However, we assign a weight to each marker equal to the Bosch-Hale D-T reaction rate (see bottom right of Fig. \ref{fig:background_plasma_profiles}). We model the birth velocity distribution as isotropic. The kinetic energy, $E_j$, of the $j^{\text{th}}$ marker is sampled from the following normal distribution (see \cite{brysk1973})
+\[E_j \sim N\qty(\text{E}(E_j), 2\frac{m_\alpha}{m_\alpha + m_n} T_i\text{E}(E_j) ),\]
+where $\text{E}(E_j)=3.5\, \si{MeV}$ is the mean birth energy of the $\alpha$-particles from the nuclear fusion, $m_\alpha$, is the mass of an $\alpha$-particle, $m_n$ is the mass of a neutron, $T_i$ is the background temperature of the ions in $\si{eV}$. In the core, the standard deviation of the energy is about 10\%.
 
 We represent the position of the $j^{\text{th}}$ marker at time $t$ by $\mathbf{x}_j(t)$, and denote
 the background magnetic field at the position of the marker by $\textbf{B}(\mathbf{x}_j)$.
@@ -121,15 +151,15 @@ The forces on the marker due to collisions with the background ions and electron
 m_\alpha\dv[2]{\mathbf{x}_j}{t} = q_\alpha\dv{\mathbf{x}_j}{t}\cross\textbf{B}(\mathbf{x}_j) + \textbf{F}_{\alpha,i}(\mathbf{x}_j) + \textbf{F}_{\alpha,e}(\mathbf{x}_j).
 \end{equation}
 
-We do not consider collisions between fast $\alpha$-particles, an omission that is justified by the low concentration of this species, and consequently each $\alpha$-particle is modelled independently. This approach presents substantial computational advantages as it allows for parallel processing. To capitalise on this, LOCUST utilises Graphics Processing Unit (GPU) architecture, enabling the simultaneous modelling of very large numbers of particles. This approach is computationally more efficient and cost-effective than Central Processing Unit (CPU)-based modelling. 
+We do not consider collisions between fast $\alpha$-particles, an omission that is justified by the low concentration of this species, and consequently each $\alpha$-particle is modelled independently. This approach presents substantial computational advantages as it allows for parallel processing. To capitalise on this, LOCUST utilises Graphics Processing Unit (GPU) architecture, enabling the simultaneous modelling of very large numbers of particles. This approach is computationally more efficient and cost-effective than Central Processing Unit (CPU)-based modelling.
 
-Our model features a smooth surface, which means that the shadowing effects of the tiles are neglected. The model wall is mainly axisymmetric, but three rows of limiters have been added, eight in the top and bottom of the main chamber, and four in the midplane. 
+Friction forces in the system are computed using a Monte Carlo Fokker-Planck collision operator that includes terms for diffusion and drift of pitch angle and energy. The collision frequencies are derived under the assumption of a weakly-coupled plasma and Maxwellian velocity distribution. For more information, see \cite{ward2021}.
 
-The axisymmetric component of the magnetic field was calculated using the free boundary FIESTA code. This field is generated by the TF and poloidal field (PF) coils, and is modified by the plasma's diamagnetic response. Fig. \ref{fig:coil_plot_3d} shows the last closed-flux surface of the axisymmetric field. Additionally, three types of 3D field with a magnitude much smaller than that of the 2D field are included. Section \ref{sec:tf_ripple_field} models the ripple field produced by the TF coils. Section \ref{sec:elm_suppression_field} calculates the impact of the ELM mitigation field on the confinement of the $\alpha$-particles. Finally, Section \ref{sec:rwm_field} calculates the impact of the impact of a resistive wall mode on the confinement of the $\alpha$-particles.
+The axisymmetric component of the magnetic field was calculated using the free-boundary FIESTA code. Fig. \ref{fig:coil_plot_3d} shows the last closed-flux surface of the axisymmetric field. Additionally, three types of 3D field with a magnitude much smaller than that of the 2D field are included. Section \ref{sec:tf_ripple_field} models the ripple field produced by the TF coils. Section \ref{sec:elm_suppression_field} calculates the impact of the ELM mitigation field on the confinement of the $\alpha$-particles. Finally, Section \ref{sec:rwm_field} calculates the impact of the impact of a resistive wall mode on the confinement of the $\alpha$-particles.
 
 \begin{figure}[htpb]
     \centering
-    \includegraphics[width=0.7\linewidth]{Figures/coil_plot_3d.pdf}
+    \includegraphics[width=0.8\linewidth]{Figures/coil_plot_3d.pdf}
     \caption{Schematic representation of STEP’s last closed flux surface, ELM suppression coils (which are interior and exterior to the vacuum vessel), RWM active control coils and TF coils. These designs are likely to change in the future. 
 }
     \label{fig:coil_plot_3d}
@@ -137,11 +167,13 @@ The axisymmetric component of the magnetic field was calculated using the free b
 
 At the end of a LOCUST simulation we calculate the power lost to the first wall using the expression 
 \begin{equation} 
-P_{lost} = P_\alpha \frac{\sum_{j\in \{\text{set of markers that hit the wall}\}}\abs{\textbf{v}_{\text{final}, j}^2}}{\sum_{j \in \{\text{set of all markers}\}} \abs{\mathbf{v}_{\text{initial}, j}^2 }}, 
+P_{\text{lost}} = P_\alpha \frac{\sum_{j\in \{\text{set of indices for the markers that hit the wall}\}}\abs{\textbf{v}_{\text{final}, j}}^2w_j}{\sum_{j \in \{\text{set of all marker indices}\}} \abs{\mathbf{v}_{\text{initial}, j}}^2w_j}, 
 \end{equation}
-where $P_\alpha$ is the thermonuclear $\alpha$-particle power, equal to $\si{330.MW}$ (which arises from a fusion power of $1.\si{66.GW}$) in the present case. Additionally, $\mathbf{v}_{\text{final}, j}$ is the final velocity of the j\textsuperscript{th} marker upon hitting the wall, and $\mathbf{v}_{\text{initial}, j}$ is the birth velocity of the j\textsuperscript{th} marker.
+where $P_\alpha$ is the thermonuclear $\alpha$-particle power, equal to $\si{330.MW}$ (which arises from a fusion power of $1.\si{66.GW}$) in the present case. Additionally, $\mathbf{v}_{\text{final}, j}$,  is the final velocity of the j\textsuperscript{th} marker, $\mathbf{v}_{\text{initial}, j}$ is the birth velocity of the j\textsuperscript{th} marker and $w_j$ is the weight of the j\textsuperscript{th} marker.
 
-To determine whether PFCs can withstand the impacts of the thermonuclear $\alpha$-particles, we need to know the energy flux of the $\alpha$-particles on the wall, and this is not evenly distributed. We calculate the energy flux using kernel density estimation \cite{chen2017} and leave-one-out cross-validation \cite{chen2017} to determine the bandwidth. We also use bootstrap resampling to calculate 95\% confidence intervals for the maximum flux \cite{chen2017}.
+To assess whether the Plasma-Facing Components (PFCs) can withstand the impacts of thermonuclear $\alpha$-particles, it is crucial to determine the energy flux of these particles on the wall, which is not uniformly distributed. The LOCUST simulations provide us with the positions and energies at which the markers hit the PFCs. However, since the energy flux is a continuous function and the markers offer only discrete data, we employ a technique described in \cite{chen2017} and further elaborated in Appendix \ref{appendix:kernel_density_estimation} to calculate the energy flux (measured in $\si{W.m^{-2}}$) across the wall. This technique utilises kernel density estimation (KDE), with bandwidths determined through cross-validation and bootstrap resampling to compute 95\% confidence intervals.
+% provides us with discrete data of where We use a technique called kernel density estimation to calcualte a, we can parameterise it using the coordinates $s_\theta$ and $\phi$, where $s_\theta$ is the poloidal distance along the wall in metres and $\phi$ is the toroidal coordinate in radians. At the end of a LOCUST simulation we have the locations, energies and weights of markers that hit the wall in the $\phi$-$s_\theta$ plane. We use kernel density estimation with Gaussian kernels to prudce a smooth function in the $\phi$-$s_\theta$ plane. Taking suitable derivatives and multiplying by the appropriate Jacobian we can calculate the 
+% We calculate the energy flux using kernel density estimation \cite{chen2017} and leave-one-out cross-validation \cite{chen2017} to determine the bandwidth. We also use bootstrap resampling to calculate 95\% confidence intervals for the maximum flux \cite{chen2017}. 
 
 \subsection{Results}
 
@@ -152,20 +184,21 @@ It is expected that STEP plasmas will be highly elongated. The toroidal field (T
 % \begin{equation}
 %     \label{eq:ripple_field}
 %     \begin{aligned}
-%         \delta B_R^{\text{ripple}}(R, \phi, z) &= \frac{B_0 R_0}{R} \qty(\frac{R}{R_{\text{coil}}})^{N_{coil}}\sin(N_{\text{coil}}\phi) +  O\qty[\frac{B_0 R_0}{R}\qty(\frac{R}{R_\text{coil}})^{2N_{\text{coil}}}], \\
-%         \delta B_\phi^{\text{ripple}}(R, \phi, z) &= \frac{B_0 R_0}{R} \qty(\frac{R}{R_{\text{coil}}})^{N_{coil}}\cos(N_{\text{coil}}\phi)  +  O\qty[\frac{B_0 R_0}{R}\qty(\frac{R}{R_\text{coil}})^{2N_{\text{coil}}}]\\
-%         \delta B_z^{\text{ripple}}(R, \phi, z) &= O\qty[\frac{B_0 R_0}{R}\qty(\frac{R}{R_\text{coil}})^{2N_{\text{coil}}}],
+%         \delta B_R^{\text{ripple}}(R, \phi, z) &\approx \frac{B_0 R_0}{R} \qty(\frac{R}{R_{\text{coil}}})^{N_{coil}}\sin(N_{\text{coil}}\phi), \\
+%         \delta B_\phi^{\text{ripple}}(R, \phi, z) &\approx \frac{B_0 R_0}{R} \qty(\frac{R}{R_{\text{coil}}})^{N_{coil}}\cos(N_{\text{coil}}\phi),\\
+%         \delta B_z^{\text{ripple}}(R, \phi, z) &\approx 0.
 %     \end{aligned}
 % \end{equation}
 \begin{equation}
     \label{eq:ripple_field}
     \begin{aligned}
-        \delta B_R^{\text{ripple}}(R, \phi, z) &\approx \frac{B_0 R_0}{R} \qty(\frac{R}{R_{\text{coil}}})^{N_{coil}}\sin(N_{\text{coil}}\phi), \\
-        \delta B_\phi^{\text{ripple}}(R, \phi, z) &\approx \frac{B_0 R_0}{R} \qty(\frac{R}{R_{\text{coil}}})^{N_{coil}}\cos(N_{\text{coil}}\phi),\\
+        \delta B_R^{\text{ripple}}(R, \phi, z) &\approx \frac{B_\text{axis} R_\text{axis}}{R}\qty[\qty(\frac{R_\text{inner}}{R})^{N_\text{coil}} + \qty(\frac{R}{R_{\text{outer}}})^{N_\text{coil}}]\sin(N_{\text{coil}}\phi), \\
+        \delta B_\phi^{\text{ripple}}(R, \phi, z) &\approx \frac{B_\text{axis} R_\text{axis}}{R}\qty[ \qty(\frac{R_\text{inner}}{R})^{N_\text{coil}} + \qty(\frac{R}{R_{\text{outer}}})^{N_\text{coil}}]\cos(N_{\text{coil}}\phi),\\
         \delta B_z^{\text{ripple}}(R, \phi, z) &\approx 0.
     \end{aligned}
 \end{equation}
-Here, $R$ denotes the major radius, $R_0$ is the major radius of the magnetic axis of the plasma, $B_0$ represents the toroidal magnetic field at $R=R_0$, $N_{\text{coil}}$ is the number of TF coils, and $\phi$ is toroidal angle. A derivation of Equation \eqref{eq:ripple_field} can be found in, for example, \cite{mcclements2005}. When we compared Equation \eqref{eq:ripple_field} with the numerical predictions of the ripple field, the discrepancy was below 1\% on the outer side of the plasma. Furthermore, our simulations, using both methodologies, confirmed concordant results within the statistical error margins arising from the use of a finite number of markers.
+Here, $R$ denotes the major radius, $R_\text{axis}$ is the major radius of the magnetic axis of the plasma, $B_\text{axis}$ represents the background toroidal magnetic field at $R=R_0$, $N_{\text{coil}}$ is the number of TF coils, $R_\text{inner}$, $R_\text{outer}$ are the major radii of the inner and outer legs of the TF coils respectively and $\phi$ is toroidal angle. A derivation of Equation \eqref{eq:ripple_field} can be found in, for example, \cite{mcclements2005}. In Appendix \ref{appendix:tf_ripple_analytic_approximation} we assess the accuracy of the above formula by comparing it with numerically calculated fields and show that the error is within 1\%.
+% When we compared Equation \eqref{eq:ripple_field} with the numerical predictions of the ripple field, the discrepancy was below 1\% on the outer side of the plasma. Furthermore, our simulations, using both methodologies, confirmed concordant results within the statistical error margins arising from the use of a finite number of markers.
 
 Fig. \ref{fig:max_and_total_flux_vs_rcoil_and_ncoil} shows the maximum energy flux on the walls and the total flux for different radii of the TF coils and the number of TF coils. The current design, with a major radius of approximately $\si{9.m}$ and 16 TF coils, has power losses that remain within acceptable limits. Increasing the radius of the coil or the number beyond these values will have a minimal effect on improving the confinement of the $\alpha$ particles. 
 % Unfortunately, due to the need to fit other instruments such as the vacuum vessel, it is difficult to reduce the outer radius of the TF coil. The results also show that we can reduce the number of TF coils from 16 to 12 without affecting the confinment (assuming a radius of $9\si{.m}$ is maintained).
@@ -201,9 +234,9 @@ where $k$ ranges from 1 to 16, $I_0$ is the maximum current value, $\phi_k$ is t
 Other toroidal harmonics (sidebands) are present, but they have a sufficiently small amplitude that their effect on $\alpha$-particle confinement can be ignored when 16 ELM suppression coils are used. However, if only 8 coils are employed, the sidebands cannot be ignored. The magnetic fields arising from these currents are, in general, modified as a result of their interaction with the plasma. Plasma reaction is more prominent for lower toroidal mode numbers ($n$) \cite{mcclements2005}. For the ripple field, the toroidal is mode large enough that we can neglect the plasma response. For the suppression of ELMs, we plan to set $n=3$. Higher values of $n$ decay more quickly with distance from the coils, decreasing their efficacy, while lower values of $n$ may activate locked modes. Nevertheless, the choice of $n$ may change, and so we also model the cases with $n=2$ and $n=4$. To model the plasma response, we used the MARS-F code \cite{liu2015}. It is difficult to confirm the accuracy of the plasma response calculations and so we will also analyse the results for the case where the vacuum ELM suppression field is used.
 
 % Equation \ref{eq:ELM_coilcurrent_profile} has three adjustable parameters: the toroidal mode number ($n$), the amplitude ($I_0$), and the phase shift $\Delta \phi$.
-We have calculated the optimal values of $\Delta \phi = \Delta \phi_{opt}$, which maximise a quantity denoted by $\abs{b^1_{res}}$. This is a dimensionless measure of the field perturbation perpendicular to a resonant flux surface. We choose a flux surface very close to the separatrix, at $q=10$, as the one at which $\abs{b^1_{res}}$ is maximised. 
+We have calculated the optimal values of $\Delta \phi = \Delta\phi_\text{opt}$, which maximise a quantity denoted by $\abs{b^1_{res}}$. This is a dimensionless measure of the field perturbation perpendicular to a resonant flux surface. We choose a flux surface very close to the separatrix, at $q=10$, as the one at which $\abs{b^1_{res}}$ is maximised. 
 % as this is the outermost surface that is resonant for all values of $n=2$, 3, 4. 
-Note that $\abs{b^1_{res}}$ gives a measure of the displacement of the X-point \cite{ryan2017}. In \cite{suttrop2018}, the authors showed that $\abs{b^1_{res}}=10^{-4}$ was sufficient to suppress ELMs in ASDEX Upgrade. The authors in \cite{liu2015} hypothesise that a similar value of $\abs{b^1_{res}}=10^{-4}$ will be needed to suppress ELMs for ITER. Extrapolating from the aforementioned ASDEX Upgrade results, we hypothesise that a value $\abs{b^1_{res}}=10^{-4}$ will be needed to suppress ELMs for STEP. However, since this is an extrapolation, we will also model the fast ion losses in scenarios where $\abs{b^1_{res}}$ is greater than $10^{-4}$. We present the optimal phase shifts ($\Delta \phi_{opt}$) and the corresponding coil currents required to ensure $\abs{b^1_{res}}=10^{-4}$ in Table \ref{table:optimum_currents_and_phases}. 
+Note that $\abs{b^1_{res}}$ gives a measure of the displacement of the X-point \cite{ryan2017}. In \cite{suttrop2018}, the authors showed that $\abs{b^1_{res}}=10^{-4}$ was sufficient to suppress ELMs in ASDEX Upgrade. The authors in \cite{liu2015} hypothesise that a similar value of $\abs{b^1_{res}}=10^{-4}$ will be needed to suppress ELMs for ITER. Extrapolating from the aforementioned ASDEX Upgrade results, we hypothesise that a value $\abs{b^1_{res}}=10^{-4}$ will be needed to suppress ELMs for STEP. However, since this is an extrapolation, we will also model the fast ion losses in scenarios where $\abs{b^1_{res}}$ is greater than $10^{-4}$. We present the optimal phase shifts ($\Delta\phi_\text{opt}$) and the corresponding coil currents required to ensure $\abs{b^1_{res}}>10^{-4}$ in Table \ref{table:optimum_currents_and_phases}. 
 \begin{table}[htbp]
 \centering
 \begin{tabular}{lccc}
@@ -212,8 +245,8 @@ Note that $\abs{b^1_{res}}$ gives a measure of the displacement of the X-point \
 \hline
 In-Vessel ELM suppression coil current [kAt] & 30 & 50 & 80 \\
 Ex-Vessel ELM suppression coil current [kAt] & 50 & 90 & 150 \\
-In-Vessel ELM suppression coil \(\Delta\phi_{opt}\) [degrees] & 265 & 173 & 67 \\
-Ex-Vessel ELM suppression coil \(\Delta\phi_{opt}\) [degrees] & 61 & 20 & 321 \\
+In-Vessel ELM suppression coil \(\Delta\phi_\text{opt}\) [degrees] & 265 & 173 & 67 \\
+Ex-Vessel ELM suppression coil \(\Delta\phi_\text{opt}\) [degrees] & 61 & 20 & 321 \\
 \hline
 \end{tabular}
 \caption{Current in kAt required to exceed \( b^1_{res} > 10^{-4} \), and optimal coil phases.}
@@ -222,7 +255,7 @@ Ex-Vessel ELM suppression coil \(\Delta\phi_{opt}\) [degrees] & 61 & 20 & 321 \\
 
 To suppress ELMs, $I_0$ must be large enough, but not so large that it reduces $\alpha$-particle confinement to an unacceptable extent. Given the uncertainty on the current required to suppress ELMs we will model the $\alpha$-particle losses with the currents quoted in Table \ref{table:optimum_currents_and_phases} and twice these values.
 % Experiments on ASDEX Upgrade, when extrapolated to STEP, suggest that for $n=2$, a current of 50 kAt would be necessary, for $n=3$ a current of 90 kAt would be required, and for $n=4$ a current of 150 kAt would be needed. However, there is a high degree of uncertainty over the current needed, so we also model coil currents with twice these values. 
-We model the $\alpha$-particle losses with the phase shifts $\Delta\phi_{opt}$ shown in Table \ref{table:optimum_currents_and_phases}. Additionally, we analyse the impact of changing the phase shift $\Delta\phi$ of the current profile of the upper coil set in comparison to the lower set on the confinement of fast particles. We consider $\Delta\phi$ values of $0^\circ$, $45^\circ$, $90^\circ$, $135^\circ$, $180^\circ$, $225^\circ$, $270^\circ$, and $315^\circ$. It should be noted that the $\Delta\phi$ used here is equal to $360^{\circ}-\Delta\phi^{\prime}$ where $\Delta\phi^{\prime}$ is the phase shift referred to in papers that report MARS-F modelling of RMPs, for example \cite{ryan2017}   
+We model the $\alpha$-particle losses with the phase shifts $\Delta\phi_\text{opt}$ shown in Table \ref{table:optimum_currents_and_phases}. Additionally, we analyse the impact of changing the phase shift $\Delta\phi$ of the current profile of the upper coil set in comparison to the lower set on the confinement of fast particles. We consider $\Delta\phi$ values of $0^\circ$, $45^\circ$, $90^\circ$, $135^\circ$, $180^\circ$, $225^\circ$, $270^\circ$, and $315^\circ$. It should be noted that the $\Delta\phi$ used here is equal to $360^{\circ}-\Delta\phi^{\prime}$ where $\Delta\phi^{\prime}$ is the phase shift referred to in papers that report MARS-F modelling of RMPs, for example \cite{ryan2017}   
 
 Fig. \ref{fig:max_and_total_flux_vs_phase_elm_rwm} and \ref{fig:max_and_total_flux_vs_phase_elm} show the predicted maximum flux of $\alpha$-particle energy on the first wall of STEP and the percentage of $\alpha$-power lost. As in the TF ripple simulations, we assume 1.66 GW of fusion power (hence $\sim\si{330.MW}$ of $\alpha$-particle power). The results are highly sensitive to the phase shift, as observed experimentally in ASDEX Upgrade \cite{sanchis2018}. These two figures also show that the losses are generally greater when the plasma response to the ELM suppression field is taken into account. However even when larger coil currents are used and the plasma response is included, acceptable heat loads can be achieved ($\ll \si{1.MW.m^{-2}}$) for suitably-chosen values of the phase shift. The findings suggest that better confinement can be achieved for $n=3$ and $n=4$ than for $n=2$. This could be due to the fact that the amplitudes of higher $n$ modes fall off more rapidly with distance from the coils, thus reducing the field perturbations in the plasma core where the great majority of high-energy $\alpha$-particles are located.
 
@@ -230,7 +263,7 @@ Fig. \ref{fig:max_and_total_flux_vs_phase_elm_rwm} and \ref{fig:max_and_total_fl
     \centering
     \vspace{-1cm}
     \includegraphics[width=0.99\linewidth]{Figures/max_and_total_flux_vs_phase_interior_rmp.pdf}
-    \caption{Maximum energy flux (left plots) and percentage heating power lost (right plots) due to deconfined $\alpha$-particles versus ELM suppression coil current phase shift $\Delta\phi$ for different values of $n$ and $I_0$ when in-vessel coils are used. Dashed curves were obtained with vacuum fields, while solid curves show the losses when the plasma response to the perturbations was included. The horizontal dotted line shows results from a simulation in which only the axisymmetric field was used, and the vertical dotted line gives the optimum phase $\Delta \phi_{opt}$ for ELM suppression.}
+    \caption{Maximum energy flux (left plots) and percentage heating power lost (right plots) due to deconfined $\alpha$-particles versus ELM suppression coil current phase shift $\Delta\phi$ for different values of $n$ and $I_0$ when in-vessel coils are used. Dashed curves were obtained with vacuum fields, while solid curves show the losses when the plasma response to the perturbations was included. The horizontal dotted line shows results from a simulation in which only the axisymmetric field was used, and the vertical dotted line gives the optimum phase $\Delta\phi_\text{opt}$ for ELM suppression.}
     \vspace{-2cm}
     \label{fig:max_and_total_flux_vs_phase_elm_rwm}
 \end{figure}
@@ -246,22 +279,21 @@ Fig. \ref{fig:max_and_total_flux_vs_phase_elm_rwm} and \ref{fig:max_and_total_fl
 
 % The optimal $\Delta\phi$ for ELM suppression has been estimated using MARS-F \textbf{cite paper} by applying the criterion that the normalised field perturbation in the plasma should exceed $10^{-4}$: this has been found to be required for effective ELM control in current experiments. In the case of $n = 3$, with the plasma response included, it has been found that ELM suppression is favoured when $\Delta\phi \sim 180^{\circ}$, a value that is somewhat greater than the optimum for minimising $\alpha$-particle losses ($\sim 90^{\circ}$) in this case (see middle row of Fig. \ref{fig:max_and_total_flux_vs_phase_elm}). The choice of $\Delta\phi$ may thus require a compromise between the requirements of ELM suppression and acceptably low $\alpha$-particle losses.
 
-\subsubsection{Poloidal distribution of RMP-induced heat loads}
+% \subsubsection{Poloidal distribution of RMP-induced heat loads}
 
-In Fig. \ref{fig:energy_flux_distribution} we show the variation with poloidal angle of heat loads due to $\alpha$-particle losses in one of the more likely RMP scenarios, with $n=3$, $I_0= \si{90.kAt}$, $\Delta \phi = 20^\circ$ and with the plasma response included. More precisely, Fig. \ref{fig:energy_flux_distribution} shows how the $\alpha$-particle energy flux maximised over toroidal angle $S_{max}$ varies with poloidal distance along the first wall, $s_\theta$:
-\begin{equation}
-    \label{eq:max_alpha_particle_energy_flux}
-    S_{max}(s_\theta) = \max_{0\le \phi \le 2\pi}\qty{S(\phi, s_\theta)},
-\end{equation}
-where $S=S(\phi, s_\theta)$ denotes the $\alpha$-particle energy flux on the first wall.
-In the right-hand plot of Fig. \ref{fig:energy_flux_distribution}, the boundaries between the outboard and inboard main chamber walls and the upper and lower divertor regions are marked by vertical lines in blue, orange, green, and red. These are labeled with the symbols +, $\times$, $\bullet$, and $\blacksquare$ respectively. The corresponding symbols and colours are also shown in the left plots for reference. These results show that the largest energy flux is on the dome in the upper divertor, with another significant peak at the end of the outer leg in the lower divertor. As mentioned previously, the maximum tolerable heat loads in these regions are, respectively, around 5 MWm$^{-2}$ and 10 MWm$^{-2}$: the values plotted in Fig. \ref{fig:energy_flux_distribution} are well within these limits. 
-
-\begin{figure}[htpb]
-    \centering
-    \includegraphics[width=0.99\linewidth]{Figures/energy_flux_distribution_rmp.pdf}
-    \caption{Distribution of peak $\alpha$-particle energy flux maximised over toroidal angle in poloidal cross-section (left) and versus poloidal distance $s_\theta$ along the wall (right plot). Both graphs display the maximum alpha particle energy flux, denoted as $S_{max}$, measured in $\si{MW.m^{-2}}$. The definition of $S_{max}$ can be found in Equation \eqref{eq:max_alpha_particle_energy_flux}.}
-    \label{fig:energy_flux_distribution}
-\end{figure}
+% In Fig. \ref{fig:energy_flux_distribution} we show the variation with poloidal angle of heat loads due to $\alpha$-particle losses in one of the more likely RMP scenarios, with $n=3$, $I_0= \si{90.kAt}$, $\Delta \phi = 20^\circ$ and with the plasma response included. More precisely, Fig. \ref{fig:energy_flux_distribution} shows how the $\alpha$-particle energy flux maximised over toroidal angle $S_{max}$ varies with poloidal distance along the first wall, $s_\theta$:
+% \begin{equation}
+%     \label{eq:max_alpha_particle_energy_flux}
+%     S_{max}(s_\theta) = \max_{0\le \phi \le 2\pi}\qty{S(\phi, s_\theta)},
+% \end{equation}
+% where $S=S(\phi, s_\theta)$ denotes the $\alpha$-particle energy flux on the first wall.
+% In the right-hand plot of Fig. \ref{fig:energy_flux_distribution}, the boundaries between the outboard and inboard main chamber walls and the upper and lower divertor regions are marked by vertical lines in blue, orange, green, and red. These are labeled with the symbols +, $\times$, $\bullet$, and $\blacksquare$ respectively. The corresponding symbols and colours are also shown in the left plots for reference. These results show that the largest energy flux is on the dome in the upper divertor, with another significant peak at the end of the outer leg in the lower divertor. As mentioned previously, the maximum tolerable heat loads in these regions are, respectively, around 5 MWm$^{-2}$ and 10 MWm$^{-2}$: the values plotted in Fig. \ref{fig:energy_flux_distribution} are well within these limits. 
+% \begin{figure}[htpb]
+%     \centering
+%     \includegraphics[width=0.99\linewidth]{Figures/energy_flux_distribution_rmp.pdf}
+%     \caption{Distribution of peak $\alpha$-particle energy flux maximised over toroidal angle in poloidal cross-section (left) and versus poloidal distance $s_\theta$ along the wall (right plot). Both graphs display the maximum alpha particle energy flux, denoted as $S_{max}$, measured in $\si{MW.m^{-2}}$. The definition of $S_{max}$ can be found in Equation \eqref{eq:max_alpha_particle_energy_flux}. \textbf{I think split this into two rows so we can make both figures signficantly bigger. We need to show DPLOTs of the orbits. Also show this for the full 3D field with RWM and ripple as well.}}
+%     \label{fig:energy_flux_distribution}
+% \end{figure}
 
 \subsubsection{RWM field}
 \label{sec:rwm_field}
@@ -273,15 +305,46 @@ In Fig. \ref{fig:max_and_total_flux_vs_bscale_rwm} we present the results of sim
 We use MARS-F to solve an eigenvalue problem to identify the poloidal structure of the RWM \cite{xia2023}. Since this is a linear calculation, the perturbation amplitude is a free variable.
 In \cite{xia2023}, the authors model the RWM and the response of the active feedback coils, including the effects of noise from the sensor signal, in their results. The feedback coils stop the growth of the RWMs, but for any finite noise level there is a residual $n=1$ perturbation in the plasma. The amplitude at the sensor can reach more than ten times the threshold value, meaning that the field there can be as high as 10 G\footnote{G is short for Gauss equal to $10^{-4}$ Tesla.}. In the present paper we only model the RWM and will not include the modification to the field due to the feedback system. We leave the modelling of the full-time-evolving field as a topic for future study. We investigate the scenarios in which the magnitude of the signal detected by the sensors is 1 G, 10 G, 100 G and 1000 G (i.e. $\si{10^{-4}.T}$, $\si{10^{-3}.T}$, $\si{10^{-2}.T}$ and $\si{10^{-1}.T}$ respectively). The results in Fig. \ref{fig:max_and_total_flux_vs_bscale_rwm} indicate that even if the RWM is allowed to reach 100 G at the sensors, the impact on the confinement of the $\alpha$-particles is minimal. If the amplitude of an RWM became so large that the magnitude of the signal detected by the sensors was 100 G or more, it would be likely to cause a disruption and our steady-state model would no longer be applicable. In such a scenario deconfined high energy $\alpha$-particles could pose a threat to plasma facing components in addition to that arising from runaway electrons, but we do not consider such effects here. 
 
-\begin{figure}[htpb]
+\begin{figure}[!htpb]
     \centering
     \includegraphics[width=0.99\linewidth]{Figures/max_and_total_flux_vs_bscale.pdf}
     \caption{Maximum energy flux (left plot) and percentage heating power lost (right plot) due to deconfined $\alpha$-particles versus RWM amplitude at the sensors located near the RWM control coils. In this case the only non-axisymmetric field is that arising from the RWM. The results in the axisymmetric limit are again shown by dotted horizontal lines.}
     \label{fig:max_and_total_flux_vs_bscale_rwm}
 \end{figure}
 
+
+
 % Resistive Wall Modes (RWMs) are expected to appear in STEP. To address this, we plan to use RWM coils to generate magnetic fields, allowing active and passive control of RWMs, as described in \cite{xia2023}. Since these RWM fields are three-dimensional, there is a potential for a major effect on the confinement of $\alpha$-particles. Our aim is to thoroughly examine the effects of RWM coils on the $\alpha$-particles and to incorporate these results in our comprehensive submission to the Nuclear Fusion journal. We plan to use 8 RWM coils in each row. Therefore, the sidebands, which were discussed in Section \ref{sec:elm_suppression_field}, will make up a significant part of the RWM field.
 
+
+\newpage
+\clearpage
+\subsubsection{All 3D fields}
+\label{sec:all_3d_fields}
+
+In this section, we will analyze the $\alpha$-particle losses in a magnetic field composed of the TF ripple field, the field produced by an RWM, and the field generated by the ELM suppression field and subsequent plasma response. This section differs from previous sections, where we examined results from a range of simulations and compared total and peak losses. Here, we will analyse the full distribution of the $\alpha$-particle energy flux on the wall from a single simulation, selecting parameters that closely match the most likely STEP design.
+
+For the TF ripple field, we use $R_{\text{inner}} = 0.75\,\si{m}$ and $R_{\text{outer}} = 9.0\,\si{m}$. We employ out-of-vessel ELM suppression coils with $n=3$, $I_0= \si{90.kAt}$, $\Delta \phi = 20^\circ$, and include the plasma response. For the RWM, we assume it has grown until a 10\,T magnetic field is detected at the detector.
+
+In Fig. \ref{fig:energy_flux_full_3d} we show the variation with poloidal angle of heat loads due to $\alpha$-particle losses. More precisely, Fig. \ref{fig:energy_flux_full_3d} shows how the $\alpha$-particle energy flux maximised over toroidal angle $S_{max}$ varies with poloidal distance along the first wall, $s_\theta$:
+\begin{equation}
+    \label{eq:max_alpha_particle_energy_flux}
+    S_{max}(s_\theta) = \max_{0\le \phi \le 2\pi}\qty{S(\phi, s_\theta)},
+\end{equation}
+where $S=S(\phi, s_\theta)$ denotes the $\alpha$-particle energy flux on the first wall. Note that the location where we define \( s_\theta = 0 \) is indicated in the top plot of Fig. \ref{fig:energy_flux_full_3d}. The point \( s_\theta = 0 \) is at the midplane on the inboard side of the wall. We define \( s_\theta \) as increasing in the anticlockwise direction around the poloidal cross-section.
+
+In the bottom plot of Fig. \ref{fig:energy_flux_full_3d}, the boundaries between the outboard and inboard main chamber walls and the upper and lower divertor regions are marked by vertical lines in blue, orange, green, and red. These are labeled with the symbols +, $\times$, $\bullet$, and $\blacksquare$ respectively. The corresponding symbols and colours are also shown in the top plot for reference. These results show that the largest energy flux is on the dome in the upper divertor, with another significant peak at the end of the outer leg in the lower divertor. As mentioned previously, the maximum tolerable heat loads in these regions are, respectively, around 5 MWm$^{-2}$ and 10 MWm$^{-2}$: the values plotted in Fig. \ref{fig:energy_flux_full_3d} are well within these limits. 
+
+Figure \ref{fig:energy_flux_full_3d} highlights two major hot spots. The hot spot in the upper dome is labeled as `prompt losses' because most of the markers that impact this region of the wall do so within \(10^{-5}\,\si{s}\) after being generated through nuclear fusion. These markers are generated by $\alpha$-particles born on orbits that quickly take them out of the plasma. The hot spot in the outer leg of the bottom divertor is labeled as `collisional losses' because the $\alpha$-particles take significantly longer to reach this area after their generation. Initially, these particles are well-confined, but they drift due to collisions. It is important to note that the transport time is accelerated by the presence of 3D magnetic fields; this hot spot is not observed in an axisymmetric simulation.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/energy_flux_full_3d.pdf}
+    \caption{Distribution of peak $\alpha$-particle energy flux maximised over toroidal angle in poloidal cross-section (left) and versus poloidal distance $s_\theta$ along the wall (right plot). Both graphs display the maximum alpha particle energy flux, denoted as $S_{max}$, measured in $\si{MW.m^{-2}}$. The definition of $S_{max}$ can be found in Equation \eqref{eq:max_alpha_particle_energy_flux}}
+    \label{fig:energy_flux_full_3d}
+\end{figure}
+
+\newpage
 \section{TAE stability calculations}
 \label{sec:halo_work}
 
@@ -318,6 +381,99 @@ Future research in the field of Alfv\'en eigenmode stability in STEP will focus 
 \section*{Acknowledgements}
 
 This work has been funded by STEP, a UKAEA program to design and build a prototype fusion energy plant and a path to commercial fusion. We also wish to thank Antti Snicker and Konsta S\"arkim\"aki at VTT Technical Research Centre of Finland for their help in verifying our results using the ASCOT code.
+
+\section*{Appendix}
+
+\appendix
+
+\section{TF Ripple Analytic Approximation}
+\label{appendix:tf_ripple_analytic_approximation}
+
+This appendix demonstrates the accuracy of our equation for the ripple field produced by the TF coils, Equation \eqref{eq:ripple_field}, which we first discussed in Section \ref{sec:tf_ripple_field}. We show that the analytic expression closely matches the numerically calculated ripple field, thus validating its use for efficient computation.
+
+Figure \ref{fig:ripple_check} compares the numerically calculated ripple field with the field given by Equation \eqref{eq:ripple_field} at two vertical positions, \( z = 0 \, \text{m} \) and \( z = 5 \, \text{m} \). The blue curve represents the numerical calculation, and the orange curve represents the analytic calculation. The close agreement between the two curves indicates that our analytic formula provides an accurate representation of the ripple field. Given this accuracy, we use the analytic formula to save computation time in further simulations. Note that the results in Figure \ref{fig:ripple_check} were calculated with 16 TF coils, \( R_{\text{inner}} = 0.75\, \text{m} \) and \( R_{\text{outer}} = 7.5\, \text{m} \).
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/ripple_check.pdf}
+    \caption{Curves of the ripple field, \( \delta B_\phi \), normalised by \( B_{axis} \), at \( \phi = 0 \) along \( R \) at \( z = 0 \) (left) and \( z = 5\, \text{m} \) (right). The blue curve was calculated numerically and the orange curve used Equation \eqref{eq:ripple_field}. The vertical dashed lines indicate the \( R \)-coordinates of the last closed flux surface. Note: \(R_\text{inner} = 0.75\, \si{m}\), \( R_{\text{outer}} = 7.5\, \text{m} \), \( N_{\text{coil}} = 16 \).}
+    \label{fig:ripple_check}
+\end{figure}
+
+In this paper, we focus on how the results change with varying \( R_\text{outer} \), while keeping \( R_\text{inner} \) fixed at \( R_\text{inner}=0.75\,\text{m} \). This value represents the largest plausible \( R_\text{inner} \). Additionally, as shown in Figure \ref{fig:max_and_total_energy_flux_vs_rcoil_inner}, the results are not sensitive to \( R_\text{inner} \) for values less than 1\,m.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/max_and_total_energy_flux_vs_rcoil_inner.pdf}
+    \caption{Plots of the peak alpha particle heat load on the walls (left) and total power lost (right) for a range of \( R_\text{inner} \) values.}
+    \label{fig:max_and_total_energy_flux_vs_rcoil_inner}
+\end{figure}
+
+Figure \ref{fig:max_and_total_energy_flux_vs_rcoil_inner} illustrates the maximum alpha particle energy flux on the walls and the total alpha power lost for different \( R_\text{inner} \) values. The results show minimal variation for \( R_\text{inner} < 1\,\text{m} \), indicating that the outcomes are not highly sensitive to \( R_\text{inner} \) within this range. The blue curves correspond to \( R_\text{outer} = 7.5\,\text{m} \) and the orange curves correspond to \( R_\text{outer} = 100.0\,\text{m} \).
+
+
+\section{Sensitivity of results to background equillibria}
+\label{appendix:sensitivity_of_results_to_background_equillibria}
+
+In this paper, we varied the 3D magnetic field used, but employed a single axisymmetric background magnetic field. Moreover, we utilized a single plasma scenario. Some of the key plasma profiles and quantities are presented in Figure \ref{fig:background_plasma_profiles} and Table \ref{table:fusion_params}. However, it is important to stress that the results can change significantly due to seemingly small changes in the background plasma and magnetic field. In this appendix, we analyse the results under a slightly different plasma scenario, with a subtly different magnetic field and more impurities in the plasma. Some of the key values, such as safety factor, density, and temperature, are shown in Figure \ref{fig:plasma_profiles_spr_045_14}. The quantities shown with a solid line represent the values for the dirtier scenario, while the baseline scenario, which is used throughout the rest of the paper, is provided for reference. We also present some key quantities of the dirtier scenario in Table \ref{table:fusion_params_dirty}, with the baseline values included for comparison. We use the same set of 3D fields we used in Section \ref{sec:all_3d_fields}.
+
+In Figure \ref{fig:energy_flux_spr_045_14_vs_spr_045_16}, we show the distribution of the $\alpha$-particle energy flux on the wall. The solid blue line represents the dirtier scenario, and the dashed orange line represents the baseline scenario for reference. We observe that the hotspot in the outer leg of the lower divertor (at approximately \( s_\theta=15\,\si{m} \)) has roughly tripled. This highlights the importance of checking the $\alpha$-particle losses throughout the design process, as small changes in the design can have a large impact on the losses. However, it is worth noting that even though the losses have tripled, they are still well below the tolerable levels, which are about \( 10\,\si{MW.m^{-2}} \) in the divertor.
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.9\linewidth]{Figures/background_plasma_curves_14_vs_16.pdf}
+    \caption{This figure is similar to Fig. \ref{fig:background_plasma_profiles}, but it shows values for a dirtier scenario. The baseline scenario, which is analyzed throughout most of this paper, is indicated with dashed lines for reference.}
+    \label{fig:plasma_profiles_spr_045_14}
+\end{figure}
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{cccccccc}
+\hline
+Plasma Scenario & $R_{\text{axis}}$ & $B_{\text{axis}}$ & $I_{\text{p}}$ & $Z_{\text{eff}}$ & $P_{\text{fusion}}$ & $P_{\alpha}$ \\
+\hline
+Dirtier & 4.21 m & 2.65 T & 20.46 MA & 2.93 & 1.42 GW & 0.28 GW \\
+Baseline & 4.38 m & 2.45 T & 20.10 MA & 2.73 & 1.66 GW & 0.33 GW \\
+\hline
+\end{tabular}
+\caption{Key quantities of the dirtier model with more impurities. Baseline values are also included for reference, as shown in Table \ref{table:fusion_params}.}
+\label{table:fusion_params_dirty}
+\end{table}
+
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.99\linewidth]{Figures/energy_flux_spr_045_14_vs_spr_045_16.pdf}
+    \caption{This figure is similar to Fig. \ref{fig:energy_flux_full_3d}, but it shows the results for the dirtier scenario with a solid blue curve. The baseline scenario is shown with a dashed orange curve for reference.yu}
+    \label{fig:energy_flux_spr_045_14_vs_spr_045_16}
+\end{figure}
+
+
+\newpage
+\clearpage
+\section{Kernel density estimation of the heat load on the PFCs}
+\label{appendix:kernel_density_estimation}
+
+As stated in Section \ref{sec:model}, the LOCUST simulations provide us with the energies and positions of the markers that hit the PFCs. In this section, we demonstrate how we use this data to estimate the energy flux from this discrete set of data using a technique called kernel density estimation (KDE). Another approach we could use is the histogram method. However, one advantage of KDE is that it limits the number of free parameters. With a histogram, both the size of the bins and the location of the origin are free parameters. In contrast, with KDE, the kernels are centered at the marker locations, making the bandwidth of the kernels the only free parameter.
+
+We parameterize our wall with the coordinates \(s_\theta\) and \(\phi\), where \(s_\theta\) is the distance along the wall in the poloidal direction (in meters) and \(\phi\) is the toroidal angle (in radians). We estimate the $\alpha$-particle energy flux, \(S(\phi, s_\theta)\), on the wall using the following formula:
+\[
+S(\phi, s_\theta) = P_{\text{lost}}\frac{\sum_{j \in \{\text{set of indices for the markers that hit the wall}\}} K_{h_{\phi}}\qty(\phi - \phi_j; 2\pi) K_{h_{\theta}}(s_\theta - s_{\theta,j}; s_{\theta, \text{max}}) E_{\text{final}, j} w_j}{R \sum_{j \in \{\text{set of indices for the markers that hit the wall}\}} E_{\text{final}, j} w_j},
+\]
+where
+\[
+K_h(x; L) = \sum_{k=-\infty}^\infty \frac{1}{\sqrt{2\pi} h} \exp\left(-\frac{(x - kL)^2}{2h^2}\right),
+\]
+with \(\phi \in [0, 2\pi]\), \(s_\theta \in [0, s_{\theta, \text{max}}]\), \(\phi_j\) and \(s_{\theta,j}\) denoting the final coordinates of the \(j\)-th marker in the toroidal and poloidal directions, respectively. \(E_{\text{final}, j}\) denotes the final kinetic energy of the \(j\)-th marker, and \(w_j\) is a sampling weight of the \(j\)-th marker. \(K_{h_{\phi}}\) and \(K_{h_{\theta}}\) are the Gaussian kernels we use, with bandwidths \(h_{\phi}\) and \(h_{\theta}\), respectively. These bandwidths are real numbers that need to be calculated.
+Notice that
+\[
+\int_{s_\theta=0}^{s_{\theta,\text{max}}}\int_{\phi=0}^{2\pi} S(\phi, s_\theta) R \, d\phi \, ds_\theta = P_{\text{lost}},
+\]
+as expected.
+
+The bandwidths \(h_{\phi}\) and \(h_{\theta}\) are determined using cross-validation. This involves dividing the data into subsets and systematically training and validating the KDE model on these subsets to optimize the bandwidth parameters. The goal is to select the bandwidths that minimize the error in estimating the true energy flux. Cross-validation ensures that the chosen bandwidths generalize well to unseen data and accurately reflect the underlying distribution.
+
+Finally, we estimate 95\% confidence intervals for the statistical uncertainty using a technique called bootstrap resampling. This technique involves randomly resampling, with replacement, the set of indices for the markers that hit the wall. By resampling with replacement, some indices may be selected multiple times, while others may not be selected at all. For each resampled set, we calculate the energy flux, \(S(\phi, s_\theta)\). At each coordinate, we then determine the range within which 95\% of the calculated energy flux values lie. This range constitutes the 95\% confidence interval for the energy flux at that coordinate.
+
 
 % Format text for bibliography
 % If more than three authors put et al.
