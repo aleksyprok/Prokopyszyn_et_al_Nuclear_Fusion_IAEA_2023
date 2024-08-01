@@ -93,7 +93,9 @@ External heating and current drive for the plasma in STEP during the flat-top co
 This approach has significant implications, as it means that the only substantial population of fast ions will be composed of $\alpha$-particles, which are a product of the fusion reaction itself. Unlike other tokamak devices such as JET and ITER, STEP will not generate fast ions via neutral beam injectors or ion cyclotron resonance heating systems.
 In this context, `fast ions' are defined as ions with speeds that are significantly greater than those of the background plasma, making them suprathermal. For example, in the STEP design, the plasma at the core is expected to reach a temperature of approximately 20 keV (see, e.g. \cite{meyer2023,mitchell2023}), whereas the fusion-born $\alpha$-particles will be born with energies of around 3.5 MeV, much higher than the background plasma.
 
-The commercial viability of STEP will rely on the longevity of the plasma-facing components. During operation, the PFCs (plasma facing components) will be exposed to heat from various sources, even if disruptions are successfully avoided. The wall will be exposed to electromagnetic radiation from the plasma, neutrons, thermal charged particles, runaway electrons, erosion due to sputtering, and $\alpha$-particles. Here, we consider the contribution of $\alpha$-particles. See, for example, \cite{bachmann2018} for a discussion {\it inter alia} of the heat loads on PFCs in a conventional tokamak reactor and \cite{Berger2022} for a study of runaway electron dynamics in STEP-like plasmas undergoing disruptions. Our objective is to maintain the heat load on the wall at a level less than approximately $1\, \text{MWm}^{-2}$ on the first wall of the main chamber, about $5\, \text{MWm}^{-2}$ on the dome structures in the divertor regions, and $10\, \text{MWm}^{-2}$ on the divertors themselves. Given that the design of the PFCs in STEP is still in its early stages, the plasma-facing components in our model are primarily smooth, resulting in the neglect of tile shadowing effects. Consequently, we should aim for somewhat lower energy fluxes to compensate for shadowing, which can increase the maximum heat load.
+The commercial viability of STEP will rely on the longevity of the plasma-facing components. During operation, the PFCs (plasma facing components) will be exposed to heat from various sources, even if disruptions are successfully avoided. The wall will be exposed to electromagnetic radiation from the plasma, neutrons, thermal charged particles, runaway electrons, erosion due to sputtering, and $\alpha$-particles.
+In \cite{vaccaro2024}, the total exhausted power to the plasma-facing components (PFCs) for STEP is estimated to be 485 MW. They consider all heat sources in their work and estimate that peak fluxes can be as high as approximately 1\,$\si{MW.m^{-2}}$. For reference, in this work, we estimate that the heat load on the PFCs due to fast thermonuclear alpha particles can reach up to approximately 40 MW. It is important to note that the alpha heat load can be highly localised. In this study, our highest estimate for peak alpha particle heat loads is about 1\,$\si{MW.m^{-2}}$. However, more realistic simulations give peak fluxes around 0.1\,$\si{MW.m^{-2}}$.
+See, for example, \cite{bachmann2018} for a discussion {\it inter alia} of the heat loads on PFCs in a conventional tokamak reactor and \cite{Berger2022} for a study of runaway electron dynamics in STEP-like plasmas undergoing disruptions. Our objective is to maintain the heat load on the wall at a level less than approximately $1\, \text{MWm}^{-2}$ on the first wall of the main chamber, about $5\, \text{MWm}^{-2}$ on the dome structures in the divertor regions, and $10\, \text{MWm}^{-2}$ on the divertors themselves. Given that the design of the PFCs in STEP is still in its early stages, the plasma-facing components in our model are primarily smooth, resulting in the neglect of tile shadowing effects. Consequently, we should aim for somewhat lower energy fluxes to compensate for shadowing, which can increase the maximum heat load.
 
 Because of their large energies, the confinement of $\alpha$-particles can easily be compromised due to deviations in the background magnetic field from axisymmetry.  In this study, we model $\alpha$-particles in fields that are axisymmetric, except for three types of three-dimensional perturbation. The first of these stems from the ripple introduced by the use of a finite number of toroidal field (TF) coils. The second arises from coils that generate resonant magnetic perturbations (RMPs) aimed at suppressing edge-localized modes (ELMs) \cite{zohm1996}. The last three-dimensional field comes from the RWM active feedback control coils used to suppress resistive wall modes (RWMs) \cite{xia2023}.
 
@@ -141,7 +143,9 @@ $R_{\text{axis}}$ & $B_{\text{axis}}$ & $I_{\text{p}}$ & $Z_{\text{eff}}$ & $P_{
 \end{table}
 
 The initial position of the markers we use to represent samples of the thermonuclear alpha particle distribution function are sampled randomly and uniformly across the plasma volume. However, we assign a weight to each marker equal to the Bosch-Hale D-T reaction rate (see bottom right of Fig. \ref{fig:background_plasma_profiles}). We model the birth velocity distribution as isotropic. The kinetic energy, $E_j$, of the $j^{\text{th}}$ marker is sampled from the following normal distribution (see \cite{brysk1973})
-\[E_j \sim N\qty(\text{E}(E_j), 2\frac{m_\alpha}{m_\alpha + m_n} T_i\text{E}(E_j) ),\]
+\begin{equation}
+    E_j \sim N\qty(\text{E}(E_j), 2\frac{m_\alpha}{m_\alpha + m_n} T_i\text{E}(E_j) ),
+\end{equation}
 where $\text{E}(E_j)=3.5\, \si{MeV}$ is the mean birth energy of the $\alpha$-particles from the nuclear fusion, $m_\alpha$, is the mass of an $\alpha$-particle, $m_n$ is the mass of a neutron, $T_i$ is the background temperature of the ions in $\si{eV}$. In the core, the standard deviation of the energy is about 10\%.
 
 We represent the position of the $j^{\text{th}}$ marker at time $t$ by $\mathbf{x}_j(t)$, and denote
@@ -547,6 +551,14 @@ Finally, we estimate 95\% confidence intervals for the statistical uncertainty u
     Nucl. Fusion
     submitted, 
     2024
+
+\bibitem{vaccaro2024} % journal article
+% example: AUTHOR, A., Internal Report Title in Title Case, internal report, Organization, Location, Year.
+    VACCARO, D., BARRETT, T., BLUTEAU, M., et al.,
+    Integrated Methodology for Design and Analysis of First Wall in the STEP Project: A Case Study in the SPR-45 Conceptual Design,
+    IEEE Trans. Plasma Sci.,
+    \textbf{2024},
+    (2024).
 
 \bibitem{bachmann2018} % internal report
 % example: AUTHOR, A., Internal Report Title in Title Case, internal report, Organization, Location, Year.
