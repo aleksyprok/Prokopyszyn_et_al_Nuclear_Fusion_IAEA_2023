@@ -78,7 +78,7 @@ Email: alex.prokopysyzn@ukaea.uk
 \setlength{\parindent}{1cm}
 \fontsize{9}{12}\selectfont
 
-The Spherical Tokamak for Energy Production (STEP) programme is focused on designing and building a prototype fusion power plant that will generate approximately 1.5-1.8 GW of deuterium-tritium fusion power. To achieve this, the $\alpha$-particles generated through fusion must be adequately confined to maintain the necessary high temperature in the core of the plasma and to protect the wall from excessive damage. Microwaves will be used for both external heating and current drive, making $\alpha$-particles the only significant fast-ion species. The purpose of this work is to model the confinement of $\alpha$-particles and the toroidal Alfvén eigenmodes (TAEs) driven by these particles in a variety of scenarios to help determine the best configuration. The scenarios examined here have been identified by the STEP team as potential flat-top operating configurations. We use LOCUST (Lorentz Orbit Code for Use in Stellerators and Tokamaks) to model the $\alpha$-particle confinement and heat-load distribution on the wall, and HALO (HAgis LOcust) to model the TAEs. The results indicate that acceptable confinement in terms of power loading can be achieved in candidate flat-top operating points, but the results are sensitive to some of the system parameters. For example, a change in the phase difference between the upper and lower edge localised mode (ELM) suppression coils can increase the maximum power load on the first wall due to $\alpha$ particle losses by a factor of 10.
+The Spherical Tokamak for Energy Production (STEP) programme is focused on designing and building a prototype fusion power plant that will generate approximately 1.5-1.8 GW of deuterium-tritium fusion power. To achieve this, the $\alpha$-particles generated through fusion must be adequately confined to maintain the necessary high temperature in the core of the plasma and to protect the wall from excessive damage. Microwaves will be used for both external heating and current drive, making $\alpha$-particles the only significant fast-ion species. The purpose of this work is to model the confinement of $\alpha$-particles and the toroidal Alfvén eigenmodes (TAEs) driven by these particles in a variety of scenarios to help determine the best configuration. The scenarios examined here have been identified by the STEP team as potential flat-top operating configurations. We use LOCUST (Lorentz Orbit Code for Use in Stellerators and Tokamaks) to model the $\alpha$-particle confinement and heat-load distribution on the wall, and HALO (HAgis LOcust) to model the TAEs. The results indicate that acceptable confinement in terms of power loading can be achieved in candidate flat-top operating points, but the results are sensitive to some of the system parameters. For example, a change in the phase difference between the upper and lower edge localised mode (ELM) suppression coils can increase the maximum power load on the first wall due to $\alpha$-particle losses by a factor of 10.
 
 % Abstract and title over, format text for the main body
 \setlength{\parindent}{0pt}
@@ -200,8 +200,8 @@ It is expected that STEP plasmas will be highly elongated. The toroidal field (T
 \begin{equation}
     \label{eq:ripple_field}
     \begin{aligned}
-        \delta B_R^{\text{ripple}}(R, \phi, z) &\approx \frac{B_\text{axis} R_\text{axis}}{R}\qty[\qty(\frac{R_\text{inner}}{R})^{N_\text{coil}} + \qty(\frac{R}{R_{\text{outer}}})^{N_\text{coil}}]\sin(N_{\text{coil}}\phi), \\
-        \delta B_\phi^{\text{ripple}}(R, \phi, z) &\approx \frac{B_\text{axis} R_\text{axis}}{R}\qty[ \qty(\frac{R_\text{inner}}{R})^{N_\text{coil}} + \qty(\frac{R}{R_{\text{outer}}})^{N_\text{coil}}]\cos(N_{\text{coil}}\phi),\\
+        \delta B_R^{\text{ripple}}(R, \phi, z) &\approx \frac{B_\text{axis} R_\text{axis}}{R}\qty[\qty(\frac{R}{R_{\text{outer}}})^{N_\text{coil}}-\qty(\frac{R_\text{inner}}{R})^{N_\text{coil}}]\sin(N_{\text{coil}}\phi), \\
+        \delta B_\phi^{\text{ripple}}(R, \phi, z) &\approx \frac{B_\text{axis} R_\text{axis}}{R}\qty[\qty(\frac{R_\text{inner}}{R})^{N_\text{coil}} + \qty(\frac{R}{R_{\text{outer}}})^{N_\text{coil}}]\cos(N_{\text{coil}}\phi),\\
         \delta B_z^{\text{ripple}}(R, \phi, z) &\approx 0.
     \end{aligned}
 \end{equation}
@@ -361,31 +361,47 @@ Figure \ref{fig:energy_flux_full_3d} highlights two major hot spots. The hot spo
 \section{TAE stability calculations}
 \label{sec:halo_work}
 
-TAEs are driven unstable due to wave-particle resonances, principally the Landau resonance, which occurs when the particle speed parallel to the magnetic field matches the Alfv\'en speed, $c_A$. The only trans-Alfv\'enic fast ions of any significance in STEP DT plasmas will be the $\alpha$-particles, born with an approximately isotropic velocity distribution clustered around a speed $\sim 1.3\times\si{10^7ms^{-1}}$. This is nearly an order of magnitude higher than the typical values of $c_A$ envisaged in STEP flat-top operation, and therefore the resonance condition will be satisfied by $\alpha$-particles as they slow down. However, although the intrinsic fast ion drive of TAEs is expected to be high in STEP, strong bulk plasma damping of these modes is also expected. The physical reason for this is that STEP will need to be a high plasma $\beta$ device to generate net electrical power, and local values of $\beta$ in the plasma core will be a substantial fraction of unity, meaning that the bulk ion thermal speed $v_i$ will be comparable to $c_A$. Moreover, in addition to the primary Landau resonance $v_{\parallel}=c_A$, in a toroidal plasma there are also sideband resonances $v_{\parallel} = c_A/\vert 2\ell-1 \vert$ where $\ell$ is a positive integer. As a result of these two effects, many bulk ions as well as fast ions can resonate with TAEs in STEP plasmas, and the interaction of bulk ions with these modes is generally expected to result in strong Landau damping.
+TAEs are driven unstable due to wave-particle resonances, principally the Landau resonance, which occurs when the particle speed parallel to the magnetic field matches the Alfv\'en speed, $c_A$. The only trans-Alfv\'enic fast ions of any significance in STEP DT plasmas will be the fusion $\alpha$-particles, born with an approximately isotropic velocity distribution clustered around a speed $\sim 1.3\times\si{10^7ms^{-1}}$. This is nearly an order of magnitude higher than the typical values of $c_A$ envisaged in STEP flat-top operation, and therefore the resonance condition will be satisfied by $\alpha$-particles as they slow down. However, although the intrinsic fast ion drive of TAEs is expected to be high in STEP, strong bulk plasma damping of these modes is also expected. The physical reason for this is that STEP will need to be a high plasma $\beta$ device to generate net electrical power, and local values of $\beta$ in the plasma core will be a substantial fraction of unity, meaning that the bulk ion thermal speed $v_i$ will be comparable to $c_A$. Moreover, in addition to the primary Landau resonance $v_{\parallel}=c_A$, in a toroidal plasma there are also sideband resonances $v_{\parallel} = c_A/\vert 2\ell+1 \vert$ where $\ell$ is a positive integer. As a result of these two effects, many bulk ions as well as fast ions can resonate with TAEs in STEP plasmas, and the interaction of bulk ions with these modes is generally expected to result in strong Landau damping.
 
-The stability of TAEs in STEP has been studied using the HAGIS \cite{pinches1998} and HALO \cite{fitzgerald2020} codes. The HAGIS LOCUST (HALO) code is similar to LOCUST in that it is a full-orbit code and utilizes GPU architecture. However, HALO extends LOCUST's capabilities by allowing the alpha particle distribution function to interact with waves, thereby enabling the calculation of the growth or decay rates of these waves.
-One particular STEP scenario is relatively compact with major radius $R_0 = 3.0\,$m, toroidal field $B_0 = 1.8\,$T and central fuel ion temperature $T_i(0)=17\,$keV. Intrinsic growth rates (i.e. $\alpha$-particle drive) of TAEs with a range of values of $n$ in the absence of all damping processes were calculated using HAGIS with the $\alpha$-particles modelled using slowing-down distributions: these growth rates are plotted in Fig. \ref{fig:TAEs}. It can be seen that most TAEs have normalised growth rates $\gamma/\omega$ of a few percent but one $n=2$ mode has much stronger drive, with $\gamma/\omega \simeq 0.18$. In this case, the mode electric field extends further into the plasma core than that of other modes and can thus interact with a high concentration of $\alpha$-particles deep inside the plasma. 
+The STEP equilibrium used in the present study supports a dense spectrum of TAEs. These modes have been identified in the usual way, by first calculating the shear Alfv\'en continuum using the CSCAS code \cite{poedts1993} and then using the MISHKA eigenvalue solver \cite{mikhailovskii1997} to locate TAEs inside the toroidicity-induced continuum gaps. Figure \ref{fig:TAE_structure} shows the low frequency continuum for $n=3$ and the eigenfunction structure of an incompressible mode whose frequency is close to the bottom of the lowest (toroidicity-induced) continuum gap.   
+ 
+\begin{figure}[htpb]
+    \centering
+    \vspace{-1.7cm}
+    \includegraphics[width=1.0\linewidth]{Figures/TAE_figure1.pdf}
+    \vspace{-3cm}
+    \caption{(a) Thick blue curves: low frequency $n=3$ shear Alfv\'en continua for the equilibrium used in this paper. Frequency $\omega$ is normalised to the Alfv\'en frequency at the magnetic axis $\omega_{A0} = c_A/R_0$ and radial coordinate $s = \psi_N^{1/2}$. Superimposed on the continua are the poloidal harmonics of a TAE with $n=3$ and frequency at the bottom of the continuum gap located at $s \simeq 0.2$. (b) Structure of this mode in the poloidal plane.}
+    \label{fig:TAE_structure}
+\end{figure}
+
+The stability of these TAEs has been studied using the HAGIS LOCUST (HALO) code \cite{fitzgerald2020}. This is similar to LOCUST in that it is a full-orbit code and utilizes GPU architecture, but it extends LOCUST's capabilities by allowing charged particles to interact resonantly with waves, thereby enabling the calculation of their growth or decay rates. A drift kinetic version of the code has also recently been developed. Intrinsic growth rates (i.e. the $\alpha$-particle drive) of TAEs with a range of $n$ values were calculated using both the drift kinetic and full orbit versions of HALO. The $\alpha$-particles were assumed to have a radial profile and velocity distribution that were consistent with a thermonuclear source corresponding to the temperature and density profiles shown in Fig. \ref{fig:background_plasma_profiles}. The drift kinetic version of HALO has also been used, in separate simulations without $\alpha$-particles, to calculate Landau damping of these modes, assuming Maxwellian velocity distributions and local parameter values again based on those plotted in Fig. \ref{fig:background_plasma_profiles}. These growth and damping rates are plotted in Fig. \ref{fig:TAE_growth_rates}. The key result to note from this figure is that in every case considered the bulk ion Landau damping is sufficient to stabilise the mode. Since other damping processes will be present, for example radiative damping resulting from coupling to kinetic Alfv\'en waves \cite{berk1993}, one may infer that these modes will not be excited in the scenario considered here. Similar calculations have been performed for other STEP flat-top operating points, and it has been found in every case that the bulk ion Landau damping alone exceeds the $\alpha$-particle drive.
 
 \begin{figure}[htpb]
     \centering
-    \includegraphics[width=1.0\linewidth]{Figures/TAE_figure.pdf}
-    \caption{Growth rates of TAEs with damping neglected in equilibrium with $B_0 = 1.8\,$T, $T_i(0) = 17\,$keV computed using HAGIS. The legend indicates the mode $n$ and squared frequency normalised to $c_A/R_0$ where $c_A$ is the Alfv\'en speed at the magnetic axis, $R=R_0$.}
-    \label{fig:TAEs}
+    \vspace{-2.5cm}
+    \includegraphics[width=1.0\linewidth]{Figures/TAE_figure2.pdf}
+    \vspace{-4.0cm}
+    \caption{Intrinsic growth rates (blue) and bulk ion Landau damping rates (red) for TAEs with a range of toroidal mode numbers, calculated using HALO (a) in the drift kinetic approximation and (b) with full orbit effects taken into account.}
+    \label{fig:TAE_growth_rates}
 \end{figure}
 
-HALO calculations with Maxwellian bulk ions but without $\alpha$-particles indicate that the Landau bulk ion damping of this mode $\gamma_d$ is even stronger than the drive: we find $\gamma_d/\omega \simeq -1.4$. It should be noted that this damping rate is exponentially sensitive to the bulk-ion plasma beta, and therefore it is important to perform a sensitivity scan of the plasma parameters, in particular $B_0$ and $T_i(0)$. We find, however, that TAEs remain damped in other flat-top plasma scenarios studied so far and are therefore unlikely to pose a threat to $\alpha$-particle confinement during this phase of a STEP plasma pulse.        
+The origin of the very strong mode suppression in Fig. \ref{fig:TAE_growth_rates} is apparent from an analytical calculation of the damping rate due to the $\ell = 1$ sideband resonance in the large aspect ratio limit \cite{betti1992}:  
+\begin{equation}
+    \label{eq:Landau_damping}
+    \frac{\gamma_L}{\omega} = -\frac{\pi^{1/2}}{12}q^2\sum_{i=D,T}\beta_i^{1/2}\left[1+\left(1+\frac{2}{9\beta_i}\right)^2\right]\exp\left(-\frac{1}{9\beta_i}\right),
+\end{equation}
+where $q$ is safety factor, $\beta_i$ is local bulk ion plasma beta, and the summation is over deuterium and tritium. The normalised fast particle drive of TAEs also scales as $q^2$, so the magnitude of damping relative to drive depends critically on $\beta_i$, and the exponential sensitivity of $\gamma_L$ to this parameter means that a relatively modest increase in $\beta_i$ can lead to much stronger damping. A key point to note here is that while the core plasma pressure in STEP is similar to that in other magnetically-confined fusion reactor concepts, the magnetic field is lower, leading to bulk plasma beta values that are high enough to suppress most (possibly all) $\alpha$-particle-driven Alfv\'enic instabilities.   
 
-\section{Discussion, conclusions and future study}
+\section{Conclusions, discussion and future study}
 \label{sec:discussion_and_conclusions}
-
+ 
 As expected, $\alpha$-particles in STEP are well confined in the axisymmetric limit, and TF ripple losses are acceptably low if there are 16 TF coils with outer limbs at major radii of at least $\si{8.m}$. Losses arising from the use of ELM suppression coils pose a more substantial challenge. Our work shows that a suboptimal choice of phase difference $\Delta\phi$ between the upper and lower sets of ELM coils can result in significant deterioration of $\alpha$-particle confinement, and the optimum $\Delta\phi$ for the suppression of ELMs in general differs from that for $\alpha$-particle confinement. However, the losses are within acceptable limits in terms of power load on the wall. More experimental research in spherical tokamaks and in double null devices is needed to establish the requirements for active suppression of ELMs in STEP. However, the work presented here provides useful information to inform the design process, giving us more confidence that a solution to the ELM problem can be found that is compatible with acceptable losses of $\alpha$ particles.
 
-In Section \ref{sec:rwm_field} we studied the losses in a scenario where the magnetic field due to an RWM was included in the model and found that the losses were only slightly higher than the axisymmetric level, even when the perturbation reached a value of $\si{10^{-2}.T}$ at the RWM detector. This magnitude at the detector would be unacceptable, as it could potentially cause a disruption. Therefore, the results suggest that the RWMs, if kept controlled, will not be a problem for $\alpha$-particle losses. However, this analysis did not take into account the feedback from the RWM active control, which is a field that varies over time (see \cite{xia2023}) and could significantly modify the poloidal structure of the magnetic field. We intend to investigate the effect of the active control field in the near future, including also the effects of sensor noise and the plasma response to the field generated by the control coils. Additionally, we plan to validate our LOCUST simulation results by using the ASCOT code \cite{hirvijoki2014}.
-In a similar study on fast ion confinement in SPARC, Scott et al. \cite{Scott2020} demonstrated that TF coil misalignment significantly impacts fast ion transport. Therefore, it is important to investigate this possibility for STEP.
+In Section \ref{sec:rwm_field} we studied the losses in a scenario where the magnetic field due to an RWM was included in the model and found that the losses were only slightly higher than the axisymmetric level, even when the perturbation reached a value of $\si{10^{-2}.T}$ at the RWM detector. This magnitude at the detector would be unacceptable, as it could potentially cause a disruption. Therefore, the results suggest that the RWMs, if actively controlled, will not be a problem for $\alpha$-particle losses. However, this analysis did not take into account feedback from the RWM active control, which is a field that varies over time (see \cite{xia2023}) and could significantly modify the poloidal structure of the magnetic field. We intend to investigate the effect of the active control field in the near future, including also the effects of sensor noise and the plasma response to the field generated by the control coils. Additionally, we plan to validate our LOCUST simulation results by using the ASCOT code \cite{hirvijoki2014}. In a similar study on fast ion confinement in the SPARC device, currently under construction, Scott and co-workers \cite{Scott2020} demonstrated that TF coil misalignment can significantly impact fast ion transport. This possibility should also be investigated in STEP.
 
 % To maximise the fusion power, it is intended that STEP will operate above the no-wall beta limit for resistive wall modes (RWMs) with $n=1$. Active and passive control of RWMs will therefore be required \cite{xia2023}. When noise is taken into account, residual field perturbations with dominant $n=1$ are present during RWM control, and these perturbations have the potential to degrade $\alpha$-particle confinement. We therefore plan to model the effects of residual field perturbations due to dedicated RWM coil currents on $\alpha$-particle confinement. The most recent STEP design includes 8 RWM active control coils along the midplane. Toroidal sidebands, discussed in Section \ref{sec:elm_suppression_field}, will make up a significant part of the RWM field and will therefore need to be included in the LOCUST modelling.
 
-Future research in the field of Alfv\'en eigenmode stability in STEP will focus {\it inter alia} on the potential destabilisation of these modes by fast electrons during the ramp-up phase (when the electron cyclotron current drive will be employed \cite{Henderson2024}) and by runaway electrons during disruptions. Additionally, the impact of the $q$-profile on Alfv\'en eigenmode stability during the flat-top phase will be explored. We also plan to check the stability of ellipticity-induced Alfv\'en eigenmodes and noncircular triangularity-induced Alfv\'en eigenmodes as well as TAEs. However, higher frequency compressional Alfv\'en eigenmodes are probably irrelevant to STEP since they are normally only driven by anisotropic fast ions \cite{Gorelenkov2016}, which will not be present. 
+Future research in the field of Alfv\'en eigenmode stability in STEP will focus {\it inter alia} on the potential destabilisation of these modes by fast electrons during the ramp-up phase (when electron cyclotron current drive will be employed \cite{Henderson2024}) and by runaway electrons during disruptions. Additionally, the impact of the $q$-profile on Alfv\'en eigenmode stability during the flat-top phase will be explored. We also plan to check the stability of ellipticity-induced Alfv\'en eigenmodes and noncircular triangularity-induced Alfv\'en eigenmodes \cite{betti1992} as well as TAEs. Finally, the stability of higher frequency compressional and global Alfv\'en eigenmodes \cite{Gorelenkov2016} in the presence of fusion $\alpha$-particles will need to be considered. 
 
 % In addition to our focus on the flat-top/steady-state phase, as mentioned in Section \ref{sec:introduction}, it is essential to determine if the $\alpha$-particles are adequately confined during the ramp-up and ramp-down phases.
 
@@ -395,7 +411,7 @@ Future research in the field of Alfv\'en eigenmode stability in STEP will focus 
 
 \section*{Acknowledgements}
 
-This work has been funded by STEP, a UKAEA program to design and build a prototype fusion energy plant and a path to commercial fusion. We also wish to thank Antti Snicker and Konsta S\"arkim\"aki at VTT Technical Research Centre of Finland for their help in verifying our results using the ASCOT code.
+This work has been funded by STEP, a major technology and infrastructure programme led by UK Industrial Fusion Solutions Ltd (UKIFS), which aims to deliver the UK’s prototype fusion powerplant and a path to the commercial viability of fusion. The authors thank Antti Snicker and Konsta S\"arkim\"aki at VTT Technical Research Centre of Finland for their help in verifying our results using the ASCOT code.
 
 \section*{Appendix}
 
@@ -406,38 +422,35 @@ This work has been funded by STEP, a UKAEA program to design and build a prototy
 
 This appendix demonstrates the accuracy of our equation for the ripple field produced by the TF coils, Equation \eqref{eq:ripple_field}, which we first discussed in Section \ref{sec:tf_ripple_field}. We show that the analytic expression closely matches the numerically calculated ripple field, thus validating its use for efficient computation.
 
-Figure \ref{fig:ripple_check} compares the numerically calculated ripple field with the field given by Equation \eqref{eq:ripple_field} at two vertical positions, \( z = 0 \, \text{m} \) and \( z = 5 \, \text{m} \). The blue curve represents the numerical calculation, and the orange curve represents the analytic calculation. The close agreement between the two curves indicates that our analytic formula provides an accurate representation of the ripple field. Given this accuracy, we use the analytic formula to save computation time in further simulations. Note that the results in Figure \ref{fig:ripple_check} were calculated with 16 TF coils, \( R_{\text{inner}} = 0.75\, \text{m} \) and \( R_{\text{outer}} = 7.5\, \text{m} \).
+Figure \ref{fig:ripple_check} compares the numerically calculated ripple field with the field given by Equation \eqref{eq:ripple_field} at two vertical positions, \( z = 0 \, \text{m} \) and \( z = 5 \, \text{m} \). The blue curve represents the numerical calculation, and the orange curve shows the analytic one. The close agreement between the two curves indicates that our analytic formula provides an accurate representation of the ripple field. Given this accuracy, we use the analytic formula to save computation time in further simulations. Note that the results in Figure \ref{fig:ripple_check} were calculated with 16 TF coils, \( R_{\text{inner}} = 0.75\, \text{m} \) and \( R_{\text{outer}} = 7.5\, \text{m} \).
 
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.99\linewidth]{Figures/ripple_check.pdf}
-    \caption{Curves of the ripple field, \( \delta B_\phi \), normalised by \( B_{axis} \), at \( \phi = 0 \) along \( R \) at \( z = 0 \) (left) and \( z = 5\, \text{m} \) (right). The blue curve was calculated numerically and the orange curve used Equation \eqref{eq:ripple_field}. The vertical dashed lines indicate the \( R \)-coordinates of the last closed flux surface. Note: \(R_\text{inner} = 0.75\, \si{m}\), \( R_{\text{outer}} = 7.5\, \text{m} \), \( N_{\text{coil}} = 16 \).}
+    \caption{Ripple field component \( \delta B_\phi \), normalised by \( B_{axis} \), at \( \phi = 0 \) along \( R \) at \( z = 0 \) (left) and \( z = 5\, \text{m} \) (right). The blue curve was calculated numerically and the orange curve was generated using Equation \eqref{eq:ripple_field}. The vertical dashed lines indicate the \( R \)-coordinates of the last closed flux surface. Note: \(R_\text{inner} = 0.75\, \si{m}\), \( R_{\text{outer}} = 7.5\, \text{m} \), \( N_{\text{coil}} = 16 \).}
     \label{fig:ripple_check}
 \end{figure}
 
-In this paper, we focus on how the results change with varying \( R_\text{outer} \), while keeping \( R_\text{inner} \) fixed at \( R_\text{inner}=0.75\,\text{m} \). This value represents the largest plausible \( R_\text{inner} \). Additionally, as shown in Figure \ref{fig:max_and_total_energy_flux_vs_rcoil_inner}, the results are not sensitive to \( R_\text{inner} \) for values less than 1\,m.
+In the main text of this paper we focus on how the results change with varying \( R_\text{outer} \), while keeping \( R_\text{inner} \) fixed at \( 0.75\,\text{m} \), the largest plausible \( R_\text{inner} \). Figure \ref{fig:max_and_total_energy_flux_vs_rcoil_inner} shows the maximum $\alpha$-particle energy flux on the walls and the total $\alpha$-power lost for different \( R_\text{inner} \) values. The results show minimal variation for \( R_\text{inner} < 1\,\text{m} \), indicating that the outcomes are not highly sensitive to \( R_\text{inner} \) within this range. The blue curves correspond to \( R_\text{outer} = 7.5\,\text{m} \) and the orange curves correspond to \( R_\text{outer} = 100.0\,\text{m} \).
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.99\linewidth]{Figures/max_and_total_energy_flux_vs_rcoil_inner.pdf}
-    \caption{Plots of the peak alpha particle heat load on the walls (left) and total power lost (right) for a range of \( R_\text{inner} \) values.}
+    \caption{Peak $\alpha$-particle heat load on the walls (left) and total power lost (right) for a range of \( R_\text{inner} \) values.}
     \label{fig:max_and_total_energy_flux_vs_rcoil_inner}
 \end{figure}
 
-Figure \ref{fig:max_and_total_energy_flux_vs_rcoil_inner} illustrates the maximum alpha particle energy flux on the walls and the total alpha power lost for different \( R_\text{inner} \) values. The results show minimal variation for \( R_\text{inner} < 1\,\text{m} \), indicating that the outcomes are not highly sensitive to \( R_\text{inner} \) within this range. The blue curves correspond to \( R_\text{outer} = 7.5\,\text{m} \) and the orange curves correspond to \( R_\text{outer} = 100.0\,\text{m} \).
-
-
-\section{Sensitivity of results to background equillibria}
+\section{Sensitivity of results to background equilibria}
 \label{appendix:sensitivity_of_results_to_background_equillibria}
 
-In this paper, we varied the 3D magnetic field used, but employed a single axisymmetric background magnetic field. Moreover, we utilized a single plasma scenario. Some of the key plasma profiles and quantities are presented in Figure \ref{fig:background_plasma_profiles} and Table \ref{table:fusion_params}. However, it is important to stress that the results can change significantly due to seemingly small changes in the background plasma and magnetic field. In this appendix, we analyse the results under a slightly different plasma scenario, with a subtly different magnetic field and more impurities in the plasma. Some of the key values, such as safety factor, density, and temperature, are shown in Figure \ref{fig:plasma_profiles_spr_045_14}. The quantities shown with a solid line represent the values for the dirtier scenario, while the baseline scenario, which is used throughout the rest of the paper, is provided for reference. We also present some key quantities of the dirtier scenario in Table \ref{table:fusion_params_dirty}, with the baseline values included for comparison. We use the same set of 3D fields we used in Section \ref{sec:all_3d_fields}.
+So far we have varied the 3D magnetic field but employed a single axisymmetric background field. Moreover, we have utilized a single plasma scenario: see Figure \ref{fig:background_plasma_profiles} and Table \ref{table:fusion_params}. It is important to stress that the results can be sensitive to changes in the background plasma and magnetic field. With this point in mind, in this appendix we present results obtained for a slightly different plasma scenario, with a subtly different magnetic field and more impurities in the plasma. Some of the key profiles (those of temperature, safety factor, density and fusion reaction rate) are plotted in Figure \ref{fig:plasma_profiles_spr_045_14}. Solid curves represent the the dirtier scenario, while the baseline scenario, which is used in the rest of the paper, is shown as dashed curves. We also present some key quantities of the dirtier scenario in Table \ref{table:fusion_params_dirty}, with the baseline values included for comparison. We use the same set of 3D fields that was employed in Section \ref{sec:all_3d_fields}. The main difference between the two scenarios in terms of impurity content is that argon is present in the dirtier case. This species could be used for the purpose of radiating power in the divertor chambers, thereby moderating the heat flux incident on the divertor plates. Some fraction of the Ar will migrate into the core plasma, resulting in a density profile such as that shown in the bottom left frame of Fig. \ref{fig:plasma_profiles_spr_045_14}. In addition to affecting the fusion reaction rate profile (see bottom right frame of Fig. \ref{fig:plasma_profiles_spr_045_14}), the presence of such impurities impacts on the slowing-down and radial transport of the $\alpha$-particles through collisions.       
 
-In Figure \ref{fig:energy_flux_spr_045_14_vs_spr_045_16}, we show the distribution of the $\alpha$-particle energy flux on the wall. The solid blue line represents the dirtier scenario, and the dashed orange line represents the baseline scenario for reference. We observe that the hotspot in the outer leg of the lower divertor (at approximately \( s_\theta=15\,\si{m} \)) has roughly tripled. This highlights the importance of checking the $\alpha$-particle losses throughout the design process, as small changes in the design can have a large impact on the losses. However, it is worth noting that even though the losses have tripled, they are still well below the tolerable levels, which are about \( 10\,\si{MW.m^{-2}} \) in the divertor.
+In Figure \ref{fig:energy_flux_spr_045_14_vs_spr_045_16}, we show the distribution of $\alpha$-particle energy flux on the wall. The solid blue curve corresponds to the dirtier scenario, and the dashed orange line represents the baseline scenario for reference. We observe that the hotspot in the outer leg of the lower divertor (at approximately \( s_\theta=15\,\si{m} \)) has roughly tripled. This highlights the importance of checking the $\alpha$-particle losses throughout the design process, as small changes in the design can have a large impact on the losses. However, it is worth noting that even though the losses have tripled, they are still well below the tolerable limit, which is about \( 10\,\si{MWm^{-2}} \) in the divertor. Slowed-down $\alpha$-particles in fact are likely to make only a modest contribution to the divertor heat flux. The other main difference in the dirtier scenario is that there is now a small peak in the losses on the inner wall, slightly below the upper divertor ($s_{\theta} \simeq 48\,$m). Again, the absolute fluxes are well below the design limits for this region of the first wall.  
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.9\linewidth]{Figures/background_plasma_curves_14_vs_16.pdf}
-    \caption{This figure is similar to Fig. \ref{fig:background_plasma_profiles}, but it shows values for a dirtier scenario. The baseline scenario, which is analyzed throughout most of this paper, is indicated with dashed lines for reference.}
+    \caption{Solid curves: profiles of key background plasma parameters for a scenario with higher impurity levels than the baseline, indicated with dashed curves for reference.}
     \label{fig:plasma_profiles_spr_045_14}
 \end{figure}
 
@@ -451,14 +464,14 @@ Dirtier & 4.21 m & 2.65 T & 20.46 MA & 2.93 & 1.42 GW & 0.28 GW \\
 Baseline & 4.38 m & 2.45 T & 20.10 MA & 2.73 & 1.66 GW & 0.33 GW \\
 \hline
 \end{tabular}
-\caption{Key quantities of the dirtier model with more impurities. Baseline values are also included for reference, as shown in Table \ref{table:fusion_params}.}
+\caption{Key parameters for the dirtier model with higher concentrations of impurities. Baseline values are included for reference, as shown in Table \ref{table:fusion_params}.}
 \label{table:fusion_params_dirty}
 \end{table}
 
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.99\linewidth]{Figures/energy_flux_spr_045_14_vs_spr_045_16.pdf}
-    \caption{This figure is similar to Fig. \ref{fig:energy_flux_full_3d}, but it shows the results for the dirtier scenario with a solid blue curve. The baseline scenario is shown with a dashed orange curve for reference.yu}
+    \caption{Solid blue curve: peak $\alpha$-particle energy flux maximised over toroidal angle versus poloidal distance $s_{\theta}$ along the first wall (see Fig. \ref{fig:energy_flux_full_3d}) for the high impurity scenario. Results for the baseline scenario are shown with a dashed orange curve for reference. Note the difference in vertical scales between this figure and Fig. \ref{fig:energy_flux_full_3d}.}
     \label{fig:energy_flux_spr_045_14_vs_spr_045_16}
 \end{figure}
 
@@ -467,27 +480,26 @@ Baseline & 4.38 m & 2.45 T & 20.10 MA & 2.73 & 1.66 GW & 0.33 GW \\
 \section{Kernel density estimation of the heat load on the PFCs}
 \label{appendix:kernel_density_estimation}
 
-As stated in Section \ref{sec:model}, the LOCUST simulations provide us with the energies and positions of the markers that hit the PFCs. In this section, we demonstrate how we use this data to estimate the energy flux from this discrete set of data using a technique called kernel density estimation (KDE). Another approach we could use is the histogram method. However, one advantage of KDE is that it limits the number of free parameters. With a histogram, both the size of the bins and the location of the origin are free parameters. In contrast, with KDE, the kernels are centered at the marker locations, making the bandwidth of the kernels the only free parameter.
+As stated in Section \ref{sec:model} the LOCUST simulations provide us with the energies and positions of the markers that hit the PFCs. In this appendix we describe how estimates of the energy flux can be obtained from these discrete data using the kernel density estimation (KDE) technique \cite{chen2017}. We could alternatively have used histograms. However, one advantage of KDE is that it limits the number of free parameters. With a histogram, both the size of the bins and the location of the origin are free parameters. For KDE, in contrast, the kernels are centred at the marker locations, making the bandwidth of the kernels the only free parameter.
 
-We parameterize our wall with the coordinates \(s_\theta\) and \(\phi\), where \(s_\theta\) is the distance along the wall in the poloidal direction (in meters) and \(\phi\) is the toroidal angle (in radians). We estimate the $\alpha$-particle energy flux, \(S(\phi, s_\theta)\), on the wall using the following formula:
-\[
-S(\phi, s_\theta) = P_{\text{lost}}\frac{\sum_{j \in \{\text{set of indices for the markers that hit the wall}\}} K_{h_{\phi}}\qty(\phi - \phi_j; 2\pi) K_{h_{\theta}}(s_\theta - s_{\theta,j}; s_{\theta, \text{max}}) E_{\text{final}, j} w_j}{R \sum_{j \in \{\text{set of indices for the markers that hit the wall}\}} E_{\text{final}, j} w_j},
-\]
+We parameterize our wall with the coordinates \(s_\theta\) and \(\phi\), where \(s_\theta\) is distance along the wall in the poloidal direction and \(\phi\) is toroidal angle. We estimate the $\alpha$-particle energy flux \(S(\phi, s_\theta)\) on the wall using the following formula:
+\begin{equation}
+  S(\phi, s_\theta) = P_{\text{lost}}\frac{\sum_{j \in \{\text{set of indices for the markers that hit the wall}\}} K_{h_{\phi}}\qty(\phi - \phi_j; 2\pi) K_{h_{\theta}}(s_\theta - s_{\theta,j}; s_{\theta, \text{max}}) E_{\text{final}, j} w_j}{R \sum_{j \in \{\text{set of indices for the markers that hit the wall}\}} E_{\text{final}, j} w_j},  
+\end{equation}
 where
-\[
-K_h(x; L) = \sum_{k=-\infty}^\infty \frac{1}{\sqrt{2\pi} h} \exp\left(-\frac{(x - kL)^2}{2h^2}\right),
-\]
+\begin{equation}
+ K_h(x; L) = \sum_{k=-\infty}^\infty \frac{1}{\sqrt{2\pi} h} \exp\left(-\frac{(x - kL)^2}{2h^2}\right),   
+\end{equation}
 with \(\phi \in [0, 2\pi]\), \(s_\theta \in [0, s_{\theta, \text{max}}]\), \(\phi_j\) and \(s_{\theta,j}\) denoting the final coordinates of the \(j\)-th marker in the toroidal and poloidal directions, respectively. \(E_{\text{final}, j}\) denotes the final kinetic energy of the \(j\)-th marker, and \(w_j\) is a sampling weight of the \(j\)-th marker. \(K_{h_{\phi}}\) and \(K_{h_{\theta}}\) are the Gaussian kernels we use, with bandwidths \(h_{\phi}\) and \(h_{\theta}\), respectively. These bandwidths are real numbers that need to be calculated.
-Notice that
-\[
+Note that
+\begin{equation}
 \int_{s_\theta=0}^{s_{\theta,\text{max}}}\int_{\phi=0}^{2\pi} S(\phi, s_\theta) R \, d\phi \, ds_\theta = P_{\text{lost}},
-\]
-as expected.
+\end{equation}
+as required, provided that $h_{\phi} \ll 2\pi$ and $h_{\theta} \ll s_{\theta,{\rm max}}$.
 
 The bandwidths \(h_{\phi}\) and \(h_{\theta}\) are determined using cross-validation. This involves dividing the data into subsets and systematically training and validating the KDE model on these subsets to optimize the bandwidth parameters. The goal is to select the bandwidths that minimize the error in estimating the true energy flux. Cross-validation ensures that the chosen bandwidths generalize well to unseen data and accurately reflect the underlying distribution.
 
 Finally, we estimate 95\% confidence intervals for the statistical uncertainty using a technique called bootstrap resampling. This technique involves randomly resampling, with replacement, the set of indices for the markers that hit the wall. By resampling with replacement, some indices may be selected multiple times, while others may not be selected at all. For each resampled set, we calculate the energy flux, \(S(\phi, s_\theta)\). At each coordinate, we then determine the range within which 95\% of the calculated energy flux values lie. This range constitutes the 95\% confidence interval for the energy flux at that coordinate.
-
 
 % Format text for bibliography
 % If more than three authors put et al.
@@ -506,11 +518,11 @@ Finally, we estimate 95\% confidence intervals for the statistical uncertainty u
 \bibitem{meyer2023} % poster at conference
 % example: PRESENTER, A., “Title of presentation in sentence case”, Paper No., paper presented at Organization seminar on subject, Location, year.
     MEYER, H.,
-    ``The plasma scenarios for the Spherical Tokamak for Energy Production (STEP) and their technical implications",
-    29\textsuperscript{th} IAEA Fusion Energy Conference,
-    poster presentation, 
-    London, UK, 
-    2023
+    Plasma burn - mind the gap,
+    Phil. Trans. R. Soc. A
+    \textbf{382} 
+    (2024)
+    20230406.
 
 %\bibitem{belova2015} % journal article
 % example: AUTHOR, A., AUTHOR, B., AUTHOR, C., Journal article title in sentence case, Abb. J. Title 1 %2 (Year) 120–123.
@@ -549,11 +561,12 @@ Finally, we estimate 95\% confidence intervals for the statistical uncertainty u
 
 \bibitem{Henderson2024} % journal article
 % example: PRESENTER, A., “Title of presentation in sentence case”, Paper No., paper presented at Organization seminar on subject, Location, year.
-    HENDERSON, M., FREETHY, S., CRAIG, S., et al., 
-    The concept design of the STEP heating and current drive system,
+    FREETHY, S., FIGINI, L., CRAIG, S., et al., 
+    The optimisation of the STEP electron cyclotron current drive concept,
     Nucl. Fusion
-    submitted, 
-    2024
+    \textbf{64} 
+    (2024)
+    126035.
 
 \bibitem{vaccaro2024} % journal article
 % example: AUTHOR, A., Internal Report Title in Title Case, internal report, Organization, Location, Year.
@@ -751,14 +764,23 @@ Finally, we estimate 95\% confidence intervals for the statistical uncertainty u
     (2017) 
     024005.
 
-\bibitem{pinches1998} % journal article
+\bibitem{poedts1993} % journal article
 % example: AUTHOR, A., AUTHOR, B., AUTHOR, C., Journal article title in sentence case, Abb. J. Title 1 2 (Year) 120–123.
-    PINCHES, S.D., APPEL, L.C., CANDY, J., et al.,
-    The HAGIS self-consistent nonlinear wave-particle interaction model,
-    Computer Phys. Commun.
-    \textbf{111}
-    (1998)
-    133.
+    POEDTS, S., SCHWARTZ, E.,
+    Computation of the ideal-MHD continuous spectrum in axisymmetric plasmas,
+    J. Comput. Phys.
+    \textbf{105}
+    (1993)
+    165.
+
+\bibitem{mikhailovskii1997} % journal article
+% example: AUTHOR, A., AUTHOR, B., AUTHOR, C., Journal article title in sentence case, Abb. J. Title 1 2 (Year) 120–123.
+    MIKHAILOVSKII, A.B., HUYSMANS, G.T.A., KERNER, W.O.K., SHARAPOV, S.E.
+    Optimization of computational MHD normal-mode analysis for tokamaks,
+    Plasma Phys. Rep.
+    \textbf{23}
+    (1997)
+    844.
 
 \bibitem{fitzgerald2020} % journal article
 % example: AUTHOR, A., AUTHOR, B., AUTHOR, C., Journal article title in sentence case, Abb. J. Title 1 2 (Year) 120–123.
@@ -768,6 +790,24 @@ Finally, we estimate 95\% confidence intervals for the statistical uncertainty u
     \textbf{252}
     (2020)
     106773.
+
+\bibitem{berk1993} % journal article
+% example: AUTHOR, A., AUTHOR, B., AUTHOR, C., Journal article title in sentence case, Abb. J. Title 1 2 (Year) 120–123.
+    BERK, H.L., METT, R.R., LINDBERG, D.M.,
+    Arbitrary mode number boundary-layer theory for nonideal toroidal Alfv\'en modes,
+    Phys. Fluids
+    \textbf{B5}
+    (1993)
+    3969.
+
+\bibitem{betti1992} % journal article
+% example: AUTHOR, A., AUTHOR, B., AUTHOR, C., Journal article title in sentence case, Abb. J. Title 1 2 (Year) 120–123.
+    BETTI, R., FREIDBERG, J.P.,
+    Stability of Alfv\'en gap modes in burning plasmas,
+    Phys. Fluids
+    \textbf{B4}
+    (1992)
+    1465.
 
 \bibitem{hirvijoki2014} % journal article
 % example: AUTHOR, A., AUTHOR, B., AUTHOR, C., Journal article title in sentence case, Abb. J. Title 1 2 (Year) 120–123.
@@ -794,8 +834,6 @@ Finally, we estimate 95\% confidence intervals for the statistical uncertainty u
     \textbf{18}
     (2016) 
     105010.
-
-
 
 \end{thebibliography}
 
