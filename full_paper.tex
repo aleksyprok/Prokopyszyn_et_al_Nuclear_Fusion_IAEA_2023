@@ -11,7 +11,7 @@
 \usepackage{fancyhdr} % Format headers
 \usepackage{etoolbox} % Format bibliography header
 \usepackage{siunitx} % Used to write SI base units
-\usepackage{physics} % Used to write differential equations more easily
+% \usepackage{physics} % Used to write differential equations more easily
 \usepackage{graphicx} % Used for figures
 \usepackage{caption} % Used to edit the figure captions
 \usepackage{ulem} % Enables strikethrough text with \sout command.
@@ -145,7 +145,7 @@ $R_{\text{axis}}$ & $B_{\text{axis}}$ & $I_{\text{p}}$ & $Z_{\text{eff}}$ & $P_{
 
 The initial position of the markers we use to represent samples of the thermonuclear alpha particle distribution function are sampled randomly and uniformly across the plasma volume. However, we assign a weight to each marker equal to the Bosch-Hale D-T reaction rate (see bottom right of Fig. \ref{fig:background_plasma_profiles}). We model the birth velocity distribution as isotropic. The kinetic energy, $E_j$, of the $j^{\text{th}}$ marker is sampled from the following normal distribution (see \cite{brysk1973})
 \begin{equation}
-    E_j \sim N\qty(\text{E}(E_j), 2\frac{m_\alpha}{m_\alpha + m_n} T_i\text{E}(E_j) ),
+    E_j \sim N\left(\text{E}(E_j), 2\frac{m_\alpha}{m_\alpha + m_n} T_i\text{E}(E_j) \right),
 \end{equation}
 where $\text{E}(E_j)=3.5\, \si{MeV}$ is the mean birth energy of the $\alpha$-particles from the nuclear fusion, $m_\alpha$, is the mass of an $\alpha$-particle, $m_n$ is the mass of a neutron, $T_i$ is the background temperature of the ions in $\si{eV}$. In the core, the standard deviation of the energy is about 10\%.
 
@@ -153,7 +153,7 @@ We represent the position of the $j^{\text{th}}$ marker at time $t$ by $\mathbf{
 the background magnetic field at the position of the marker by $\textbf{B}(\mathbf{x}_j)$.
 The forces on the marker due to collisions with the background ions and electrons are $\textbf{F}_{\alpha,i}(\mathbf{x}_j)$ and $\textbf{F}_{\alpha,e}(\mathbf{x}_j)$ respectively, while the mass and charge of the $\alpha$-particles are $m_\alpha$ and $q_\alpha$ respectively. The equation of motion for the $j^{\text{th}}$ marker is
 \begin{equation}
-m_\alpha\dv[2]{\mathbf{x}_j}{t} = q_\alpha\dv{\mathbf{x}_j}{t}\cross\textbf{B}(\mathbf{x}_j) + \textbf{F}_{\alpha,i}(\mathbf{x}_j) + \textbf{F}_{\alpha,e}(\mathbf{x}_j).
+m_\alpha\frac{d^2\mathbf{x}_j}{dt^2} = q_\alpha\frac{d\mathbf{x}_j}{dt}\mathbf{\times}\textbf{B}(\mathbf{x}_j) + \textbf{F}_{\alpha,i}(\mathbf{x}_j) + \textbf{F}_{\alpha,e}(\mathbf{x}_j).
 \end{equation}
 
 We do not consider collisions between fast $\alpha$-particles, an omission that is justified by the low concentration of this species, and consequently each $\alpha$-particle is modelled independently. This approach presents substantial computational advantages as it allows for parallel processing. To capitalise on this, LOCUST utilises Graphics Processing Unit (GPU) architecture, enabling the simultaneous modelling of very large numbers of particles. This approach is computationally more efficient and cost-effective than Central Processing Unit (CPU)-based modelling.
@@ -172,7 +172,7 @@ The axisymmetric component of the magnetic field was calculated using the free-b
 
 At the end of a LOCUST simulation we calculate the power lost to the first wall using the expression 
 \begin{equation} 
-P_{\text{lost}} = P_\alpha \frac{\sum_{j\in \{\text{set of indices for the markers that hit the wall}\}}\abs{\textbf{v}_{\text{final}, j}}^2w_j}{\sum_{j \in \{\text{set of all marker indices}\}} \abs{\mathbf{v}_{\text{initial}, j}}^2w_j}, 
+P_{\text{lost}} = P_\alpha \frac{\sum_{j\in \{\text{set of indices for the markers that hit the wall}\}}|\textbf{v}_{\text{final}, j}|^2w_j}{\sum_{j \in \{\text{set of all marker indices}\}} |\mathbf{v}_{\text{initial}, j}|^2w_j}, 
 \end{equation}
 where $P_\alpha$ is the thermonuclear $\alpha$-particle power, equal to $\si{330.MW}$ (which arises from a fusion power of $1.\si{66.GW}$) in the present case. Additionally, $\mathbf{v}_{\text{final}, j}$,  is the final velocity of the j\textsuperscript{th} marker, $\mathbf{v}_{\text{initial}, j}$ is the birth velocity of the j\textsuperscript{th} marker and $w_j$ is the weight of the j\textsuperscript{th} marker. Note that the weight, $w_j$, is given by the Bosch-Hale DT reaction rate (see bottom right of Fig. \ref{fig:background_plasma_profiles}).
 
@@ -200,8 +200,8 @@ It is expected that STEP plasmas will be highly elongated. The toroidal field (T
 \begin{equation}
     \label{eq:ripple_field}
     \begin{aligned}
-        \delta B_R^{\text{ripple}}(R, \phi, z) &\approx \frac{B_\text{axis} R_\text{axis}}{R}\qty[\qty(\frac{R}{R_{\text{outer}}})^{N_\text{coil}}-\qty(\frac{R_\text{inner}}{R})^{N_\text{coil}}]\sin(N_{\text{coil}}\phi), \\
-        \delta B_\phi^{\text{ripple}}(R, \phi, z) &\approx \frac{B_\text{axis} R_\text{axis}}{R}\qty[\qty(\frac{R_\text{inner}}{R})^{N_\text{coil}} + \qty(\frac{R}{R_{\text{outer}}})^{N_\text{coil}}]\cos(N_{\text{coil}}\phi),\\
+        \delta B_R^{\text{ripple}}(R, \phi, z) &\approx \frac{B_\text{axis} R_\text{axis}}{R}\left[\left(\frac{R}{R_{\text{outer}}}\right)^{N_\text{coil}}-\left(\frac{R_\text{inner}}{R}\right)^{N_\text{coil}}\right]\sin(N_{\text{coil}}\phi), \\
+        \delta B_\phi^{\text{ripple}}(R, \phi, z) &\approx \frac{B_\text{axis} R_\text{axis}}{R}\left[\left(\frac{R_\text{inner}}{R}\right)^{N_\text{coil}} + \left(\frac{R}{R_{\text{outer}}}\right)^{N_\text{coil}}\right]\cos(N_{\text{coil}}\phi),\\
         \delta B_z^{\text{ripple}}(R, \phi, z) &\approx 0.
     \end{aligned}
 \end{equation}
@@ -239,16 +239,16 @@ There are sixteen of each type of ELM suppression coil in each row, as illustrat
 \end{align}
 where $k$ ranges from 1 to 16, $I_0$ is the maximum current value, $\phi_k$ is the toroidal angle of the centre of the $k^\text{th}$ coil, $n$ is the principal toroidal mode number chosen to be excited, and $\Delta \phi$ is a free parameter that provides a phase shift. This produces a magnetic field that can be expressed as
 \begin{equation}
-    \delta\textbf{B}^\text{ELM}(R, \phi, z)=\Re\qty[\qty(\delta\textbf{B}^\text{ELM}_\text{real}(R,z) + i\delta\textbf{B}^\text{ELM}_\text{imag}(R,z))\exp(in\phi)].
+    \delta\textbf{B}^\text{ELM}(R, \phi, z)=\Re\left[\left(\delta\textbf{B}^\text{ELM}_\text{real}(R,z) + i\delta\textbf{B}^\text{ELM}_\text{imag}(R,z)\right)\exp(in\phi)\right].
 \end{equation}
 Other toroidal harmonics (sidebands) are present, but they have a sufficiently small amplitude that their effect on $\alpha$-particle confinement can be ignored when 16 ELM suppression coils are used. However, if only 8 coils are employed, the sidebands cannot be ignored. The magnetic fields arising from these currents are, in general, modified as a result of their interaction with the plasma. Plasma reaction is more prominent for lower toroidal mode numbers ($n$) \cite{mcclements2005}. For the ripple field, the toroidal is mode large enough that we can neglect the plasma response. For the suppression of ELMs, we plan to set $n=3$. Higher values of $n$ decay more quickly with distance from the coils, decreasing their efficacy, while lower values of $n$ may activate locked modes. Nevertheless, the choice of $n$ may change, and so we also model the cases with $n=2$ and $n=4$. To model the plasma response, we used the MARS-F code \cite{liu2015}. It is difficult to confirm the accuracy of the plasma response calculations and so we will also analyse the results for the case where the vacuum ELM suppression field is used.
 
 % Equation \ref{eq:ELM_coilcurrent_profile} has three adjustable parameters: the toroidal mode number ($n$), the amplitude ($I_0$), and the phase shift $\Delta \phi$.
-We have calculated the optimal values of $\Delta \phi = \Delta\phi_\text{opt}$, which maximise a quantity denoted by $\abs{b^1_{res}}$. This is a dimensionless measure of the field perturbation perpendicular to a resonant flux surface. 
+We have calculated the optimal values of $\Delta \phi = \Delta\phi_\text{opt}$, which maximise a quantity denoted by $|b^1_{res}|$. This is a dimensionless measure of the field perturbation perpendicular to a resonant flux surface. 
 Note that $b^1$ is defined by the component of the perturbation perpendicular to the background flux surface, divided by the magnitude of the magnetic field at that location.
-We choose a flux surface very close to the separatrix, at $q=10$, as the one at which $\abs{b^1_{res}}$ is maximised. 
+We choose a flux surface very close to the separatrix, at $q=10$, as the one at which $|b^1_{res}|$ is maximised. 
 % as this is the outermost surface that is resonant for all values of $n=2$, 3, 4. 
-Note that $\abs{b^1_{res}}$ gives a measure of the displacement of the X-point \cite{ryan2017}. In \cite{suttrop2018}, the authors showed that $\abs{b^1_{res}}=10^{-4}$ was sufficient to suppress ELMs in ASDEX Upgrade. The authors in \cite{liu2015} hypothesise that a similar value of $\abs{b^1_{res}}=10^{-4}$ will be needed to suppress ELMs for ITER. Extrapolating from the aforementioned ASDEX Upgrade results, we hypothesise that a value $\abs{b^1_{res}}=10^{-4}$ will be needed to suppress ELMs for STEP. However, since this is an extrapolation, we will also model the fast ion losses in scenarios where $\abs{b^1_{res}}$ is greater than $10^{-4}$. We present the optimal phase shifts ($\Delta\phi_\text{opt}$) and the corresponding coil currents required to ensure $\abs{b^1_{res}}>10^{-4}$ in Table \ref{table:optimum_currents_and_phases}. 
+Note that $|b^1_{res}|$ gives a measure of the displacement of the X-point \cite{ryan2017}. In \cite{suttrop2018}, the authors showed that $|b^1_{res}|=10^{-4}$ was sufficient to suppress ELMs in ASDEX Upgrade. The authors in \cite{liu2015} hypothesise that a similar value of $|b^1_{res}|=10^{-4}$ will be needed to suppress ELMs for ITER. Extrapolating from the aforementioned ASDEX Upgrade results, we hypothesise that a value $|b^1_{res}|=10^{-4}$ will be needed to suppress ELMs for STEP. However, since this is an extrapolation, we will also model the fast ion losses in scenarios where $|b^1_{res}|$ is greater than $10^{-4}$. We present the optimal phase shifts ($\Delta\phi_\text{opt}$) and the corresponding coil currents required to ensure $|b^1_{res}|>10^{-4}$ in Table \ref{table:optimum_currents_and_phases}. 
 \begin{table}[htbp]
 \centering
 \begin{tabular}{lccc}
@@ -342,7 +342,7 @@ For the TF ripple field, we use $R_{\text{inner}} = 0.75\,\si{m}$ and $R_{\text{
 In Fig. \ref{fig:energy_flux_full_3d} we show the variation with poloidal angle of heat loads due to $\alpha$-particle losses. More precisely, Fig. \ref{fig:energy_flux_full_3d} shows how the $\alpha$-particle energy flux maximised over toroidal angle $S_{max}$ varies with poloidal distance along the first wall, $s_\theta$:
 \begin{equation}
     \label{eq:max_alpha_particle_energy_flux}
-    S_{max}(s_\theta) = \max_{0\le \phi \le 2\pi}\qty{S(\phi, s_\theta)},
+    S_{max}(s_\theta) = \max_{0\le \phi \le 2\pi}\{S(\phi, s_\theta)\},
 \end{equation}
 where $S=S(\phi, s_\theta)$ denotes the $\alpha$-particle energy flux on the first wall. Note that the location where we define \( s_\theta = 0 \) is indicated in the top plot of Fig. \ref{fig:energy_flux_full_3d}. The point \( s_\theta = 0 \) is at the midplane on the inboard side of the wall. We define \( s_\theta \) as increasing in the anticlockwise direction around the poloidal cross-section.
 
@@ -484,7 +484,7 @@ As stated in Section \ref{sec:model} the LOCUST simulations provide us with the 
 
 We parameterize our wall with the coordinates \(s_\theta\) and \(\phi\), where \(s_\theta\) is distance along the wall in the poloidal direction and \(\phi\) is toroidal angle. We estimate the $\alpha$-particle energy flux \(S(\phi, s_\theta)\) on the wall using the following formula:
 \begin{equation}
-  S(\phi, s_\theta) = P_{\text{lost}}\frac{\sum_{j \in \{\text{set of indices for the markers that hit the wall}\}} K_{h_{\phi}}\qty(\phi - \phi_j; 2\pi) K_{h_{\theta}}(s_\theta - s_{\theta,j}; s_{\theta, \text{max}}) E_{\text{final}, j} w_j}{R \sum_{j \in \{\text{set of indices for the markers that hit the wall}\}} E_{\text{final}, j} w_j},  
+  S(\phi, s_\theta) = P_{\text{lost}}\frac{\sum_{j \in \{\text{set of indices for the markers that hit the wall}\}} K_{h_{\phi}}(\phi - \phi_j; 2\pi) K_{h_{\theta}}(s_\theta - s_{\theta,j}; s_{\theta, \text{max}}) E_{\text{final}, j} w_j}{R \sum_{j \in \{\text{set of indices for the markers that hit the wall}\}} E_{\text{final}, j} w_j},  
 \end{equation}
 where
 \begin{equation}
